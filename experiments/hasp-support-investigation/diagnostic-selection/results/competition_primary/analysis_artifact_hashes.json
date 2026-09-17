@@ -1,0 +1,14 @@
+{
+  "COMPETITION_RESULTS.md": "1eb26454fff6ddf7d790ff67560609591e0530caffff2d9385591dc905952db4",
+  "competition_analyze.py": "27a6fbb90d820f315ded1fe991628abbeed4354743a5e9b1bbdf8d74735b9137",
+  "competition_audit.py": "d9fe83a5786c8dfa88df663a52f2f9d8d876706c602966936ca027c40062f00e",
+  "test_competition_runner.py": "346b405961f8b0e91cf551c3ccd550224642633d01d0f8f5f796b875befb0083",
+  "test_competition_analyze.py": "ed70eb27aefd1d4b9faf25ece51821ffe5ddbbc4638efbc11fc97c013887b06a",
+  "analysis/competition_interpretation.md": "dff289218dbc6c623acf8b02537eea598705a28e2a18eb3a166463fc9d584b3a",
+  "analysis/competition_integrity.json": "f3ac15ba4ed081291950fd1bf0a7553cc5a95f5b2747497eb98d2190ce803b15",
+  "analysis/competition_examples.md": "134c70c4329155363bf518a3cfd4864544b7b896b642b2be5245b1f1eda593c1",
+  "analysis/competition_integrity_appendix.md": "4342573868e5c22ad135b0737ca387b331c8f0e10b9e554cded09583aace3ee0",
+  "analysis/competition_observations.csv": "f8dc38fa6c3fac2ef3f9f82d732c6503e9930875c6f6ccad3d66651c37416cbe",
+  "analysis/competition_examples.json": "ccb6d6d4d9cd57af0f6e9c19625091b0b3c666c1d24b36b020b4682b3d3f1cc3",
+  "analysis/competition_summary.json": "03e19986c1861815cf23c6450c6491da800dbeef8b5eccb885c3c9a51d5ca4ac"
+}

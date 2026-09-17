@@ -20,7 +20,9 @@ import pytest
 from skills_layout import DOMAINS, KINDS, resolve
 
 COUNTS = {("textual", "math"): 4, ("textual", "web"): 28, ("textual", "code"): 14,
-          ("executable", "math"): 17, ("executable", "web"): 4, ("executable", "code"): 5}
+          ("textual", "support"): 0,
+          ("executable", "math"): 17, ("executable", "web"): 4, ("executable", "code"): 5,
+          ("executable", "support"): 5}
 TOTAL = sum(COUNTS.values())
 
 

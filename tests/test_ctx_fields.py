@@ -30,7 +30,7 @@ SKILL_FILES = sorted((_HASP / "skills" / "executable").glob("*/skills.py"))
 
 
 def test_skill_files_are_where_the_test_thinks():
-    assert len(SKILL_FILES) == 3, [str(p) for p in SKILL_FILES]
+    assert len(SKILL_FILES) == 4, [str(p) for p in SKILL_FILES]
 
 
 @pytest.mark.parametrize("path", SKILL_FILES, ids=lambda p: p.parent.name)

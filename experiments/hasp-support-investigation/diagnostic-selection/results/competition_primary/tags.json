@@ -1,0 +1,46 @@
+{
+  "models": [
+    {
+      "name": "gemma3n:e4b",
+      "model": "gemma3n:e4b",
+      "modified_at": "2026-07-16T16:34:55.047197378+05:30",
+      "size": 7547589116,
+      "digest": "15cb39fd9394fd2549f6df9081cfc84dd134ecf2c9c5be911e5629920489ac32",
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "gemma3n",
+        "families": [
+          "gemma3n"
+        ],
+        "parameter_size": "6.9B",
+        "quantization_level": "Q4_K_M"
+      },
+      "capabilities": [
+        "completion"
+      ]
+    },
+    {
+      "name": "gemma4e-64k:latest",
+      "model": "gemma4e-64k:latest",
+      "modified_at": "2026-07-11T10:29:18.741731249+05:30",
+      "size": 9608350734,
+      "digest": "8f3c23b2ff2b1afd1de03317c0fc3e77a27c31222f67b4418db2bb4191ea06d2",
+      "details": {
+        "parent_model": "gemma4:e4b",
+        "format": "gguf",
+        "family": "gemma4",
+        "families": [
+          "gemma4"
+        ],
+        "parameter_size": "8.0B",
+        "quantization_level": "Q4_K_M"
+      },
+      "capabilities": [
+        "completion",
+        "tools",
+        "thinking"
+      ]
+    }
+  ]
+}

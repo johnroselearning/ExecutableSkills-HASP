@@ -1,0 +1,7 @@
+{
+  "timestamp": "2026-09-16T13:05:45.029702+00:00",
+  "pid": 255523,
+  "signal": "SIGTERM",
+  "primary_complete": true,
+  "other_ollama_server_untouched": true
+}

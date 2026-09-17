@@ -1,0 +1,226 @@
+[
+  {
+    "action": "A",
+    "name": "Trace request ID",
+    "cost": 3,
+    "observation": "abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.",
+    "compatible_worlds": [
+      "H1",
+      "H2",
+      "H3"
+    ],
+    "eliminates_from_initial": [
+      "H4"
+    ]
+  },
+  {
+    "action": "A",
+    "name": "Trace request ID",
+    "cost": 3,
+    "observation": "abc123: POST /api/checkout returns 500 after its payment span returns 503. No uninspected spans remain.",
+    "compatible_worlds": [
+      "H4"
+    ],
+    "eliminates_from_initial": [
+      "H1",
+      "H2",
+      "H3"
+    ]
+  },
+  {
+    "action": "B",
+    "name": "Compare web versus mobile",
+    "cost": 1,
+    "observation": "Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.",
+    "compatible_worlds": [
+      "H1",
+      "H2"
+    ],
+    "eliminates_from_initial": [
+      "H3",
+      "H4"
+    ]
+  },
+  {
+    "action": "B",
+    "name": "Compare web versus mobile",
+    "cost": 1,
+    "observation": "Matched account, cart, payment method, time and backend: both web and mobile return 500.",
+    "compatible_worlds": [
+      "H3",
+      "H4"
+    ],
+    "eliminates_from_initial": [
+      "H1",
+      "H2"
+    ]
+  },
+  {
+    "action": "C",
+    "name": "Inspect backend exception/logs",
+    "cost": 4,
+    "observation": "abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.",
+    "compatible_worlds": [
+      "H1",
+      "H3"
+    ],
+    "eliminates_from_initial": [
+      "H2",
+      "H4"
+    ]
+  },
+  {
+    "action": "C",
+    "name": "Inspect backend exception/logs",
+    "cost": 4,
+    "observation": "abc123 exception: required checkout scope missing; middleware converted the authorization exception into HTTP 500.",
+    "compatible_worlds": [
+      "H2"
+    ],
+    "eliminates_from_initial": [
+      "H1",
+      "H3",
+      "H4"
+    ]
+  },
+  {
+    "action": "C",
+    "name": "Inspect backend exception/logs",
+    "cost": 4,
+    "observation": "abc123 exception: PaymentUnavailable, downstream status 503.",
+    "compatible_worlds": [
+      "H4"
+    ],
+    "eliminates_from_initial": [
+      "H1",
+      "H2",
+      "H3"
+    ]
+  },
+  {
+    "action": "D",
+    "name": "Compare request headers and payload",
+    "cost": 1,
+    "observation": "Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \"1200\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.",
+    "compatible_worlds": [
+      "H1",
+      "H3"
+    ],
+    "eliminates_from_initial": [
+      "H2",
+      "H4"
+    ]
+  },
+  {
+    "action": "D",
+    "name": "Compare request headers and payload",
+    "cost": 1,
+    "observation": "Captures for POST /api/checkout (web request-id abc123): equivalent numeric payloads; web lacks X-Checkout-Scope, mobile includes it. Content-Type and X-Checkout-Version also differ. No replay has run.",
+    "compatible_worlds": [
+      "H2"
+    ],
+    "eliminates_from_initial": [
+      "H1",
+      "H3",
+      "H4"
+    ]
+  },
+  {
+    "action": "D",
+    "name": "Compare request headers and payload",
+    "cost": 1,
+    "observation": "Captures for POST /api/checkout (web request-id abc123): equivalent numeric payloads and checkout scope; only Content-Type charset spelling and X-Checkout-Version differ. No replay has run.",
+    "compatible_worlds": [
+      "H4"
+    ],
+    "eliminates_from_initial": [
+      "H1",
+      "H2",
+      "H3"
+    ]
+  },
+  {
+    "action": "E",
+    "name": "Check payment/dependency health",
+    "cost": 2,
+    "observation": "Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.",
+    "compatible_worlds": [
+      "H1",
+      "H2",
+      "H3"
+    ],
+    "eliminates_from_initial": [
+      "H4"
+    ]
+  },
+  {
+    "action": "E",
+    "name": "Check payment/dependency health",
+    "cost": 2,
+    "observation": "Incident-window payment probes and this checkout\u2019s payment span return 503; cart and inventory are healthy.",
+    "compatible_worlds": [
+      "H4"
+    ],
+    "eliminates_from_initial": [
+      "H1",
+      "H2",
+      "H3"
+    ]
+  },
+  {
+    "action": "F",
+    "name": "Controlled isolation replay suite",
+    "cost": 5,
+    "observation": "Replay: only replacing web string amount with numeric amount restores success; reintroducing string restores 500. Auth swaps, backend rollback and payment stub do not fix the string request.",
+    "compatible_worlds": [
+      "H1"
+    ],
+    "eliminates_from_initial": [
+      "H2",
+      "H3",
+      "H4"
+    ]
+  },
+  {
+    "action": "F",
+    "name": "Controlled isolation replay suite",
+    "cost": 5,
+    "observation": "Replay: adding checkout scope restores success; removing it restores 500. Payload swap, backend rollback and payment stub do not fix missing scope.",
+    "compatible_worlds": [
+      "H2"
+    ],
+    "eliminates_from_initial": [
+      "H1",
+      "H3",
+      "H4"
+    ]
+  },
+  {
+    "action": "F",
+    "name": "Controlled isolation replay suite",
+    "cost": 5,
+    "observation": "Replay: both payload representations fail on current backend and succeed on previous backend; redeploying current backend restores failure. Auth swaps and payment stub do not fix it.",
+    "compatible_worlds": [
+      "H3"
+    ],
+    "eliminates_from_initial": [
+      "H1",
+      "H2",
+      "H4"
+    ]
+  },
+  {
+    "action": "F",
+    "name": "Controlled isolation replay suite",
+    "cost": 5,
+    "observation": "Replay: payment stub restores success for both clients; reconnecting failed payment restores 500. Payload/auth swaps and backend rollback do not fix it.",
+    "compatible_worlds": [
+      "H4"
+    ],
+    "eliminates_from_initial": [
+      "H1",
+      "H2",
+      "H3"
+    ]
+  }
+]

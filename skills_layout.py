@@ -32,7 +32,7 @@ from pathlib import Path
 from typing import List, Sequence, Union
 
 KINDS = ("textual", "executable")
-DOMAINS = ("math", "web", "code")
+DOMAINS = ("math", "web", "code", "support")
 
 DYNAMIC_PF = "dynamic_program_functions.py"
 EXECUTABLE_PF = "skills.py"   # the single registration entry point
@@ -112,7 +112,10 @@ def resolve(spec: Union[str, Path], domains: Sequence[str] = ()) -> Library:
         return lib
 
     # skills/<domain> — the pre-split form still written in training configs
-    if _domain_of(p) and (p.parent / "textual" / p.name).is_dir():
+    if _domain_of(p) and (
+        (p.parent / "textual" / p.name).is_dir()
+        or (p.parent / "executable" / p.name).is_dir()
+    ):
         return resolve(p.parent, domains=[p.name])
 
     # anything else that is already a library

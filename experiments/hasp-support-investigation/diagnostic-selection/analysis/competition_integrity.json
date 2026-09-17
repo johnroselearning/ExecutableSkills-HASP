@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "observations": 400,
+  "generation_calls": 487,
+  "role_counts": {
+    "policy": 100,
+    "selector": 100,
+    "revision": 287
+  },
+  "status_counts": {
+    "valid": 400
+  },
+  "annotation_frozen_before_all_generations": true,
+  "all_frozen_hashes_match": true,
+  "all_prompts_seeds_and_sampling_match": true,
+  "all_scores_recomputed_match": true,
+  "all_shared_proposals_match": true,
+  "all_activations_and_full_interventions_match": true,
+  "min_prompt_tokens": 347,
+  "max_prompt_tokens": 897,
+  "max_total_tokens": 907,
+  "done_reasons": {
+    "stop": 487
+  },
+  "generation_wall_seconds_sum": 3577.2263095820053
+}

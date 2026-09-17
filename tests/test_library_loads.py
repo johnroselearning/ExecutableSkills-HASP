@@ -27,7 +27,7 @@ SKILL_MODULES = sorted((_HASP / "skills" / "executable").glob("*/skills.py"))
 
 #: The library ships this many registered skills. A drop means a module failed
 #: to load; a rise means one was added without updating this number.
-EXPECTED_SKILLS = 72
+EXPECTED_SKILLS = 77
 
 
 @pytest.mark.parametrize("path", SKILL_MODULES, ids=lambda p: p.parent.name)

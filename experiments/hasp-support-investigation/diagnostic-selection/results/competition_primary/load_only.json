@@ -1,0 +1,19 @@
+{
+  "timestamp": "2026-09-16T08:17:45.545449+00:00",
+  "request": {
+    "model": "gemma4e-64k:latest",
+    "stream": false,
+    "options": {
+      "num_ctx": 4096,
+      "num_thread": 8
+    },
+    "keep_alive": "30m"
+  },
+  "response": {
+    "model": "gemma4e-64k:latest",
+    "created_at": "2026-09-16T08:17:45.54476457Z",
+    "response": "",
+    "done": true,
+    "done_reason": "load"
+  }
+}

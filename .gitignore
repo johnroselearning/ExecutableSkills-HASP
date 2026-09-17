@@ -4,6 +4,7 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 .ipynb_checkpoints/
+.venv/
 
 # Caches written by torch / vLLM / triton (HASP_CACHE_ROOT defaults here)
 .cache/

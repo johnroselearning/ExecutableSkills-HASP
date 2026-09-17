@@ -1,0 +1,8 @@
+{
+  "model_manifest_sha256": "8f3c23b2ff2b1afd1de03317c0fc3e77a27c31222f67b4418db2bb4191ea06d2",
+  "python": "3.12.3",
+  "runtime": "Ollama 0.31.2",
+  "model_digest_verified": true,
+  "port": 11435,
+  "cloud_disabled": true
+}

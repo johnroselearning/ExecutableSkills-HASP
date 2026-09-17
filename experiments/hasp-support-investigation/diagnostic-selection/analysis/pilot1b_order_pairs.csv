@@ -1,0 +1,21 @@
+world,trial,B_actions,reverse_actions,same_first_selection,same_first_selection_set,same_first_action,same_trajectory,cost_delta_reverse_minus_B,steps_delta_reverse_minus_B,B_status,reverse_status
+H1,1,"['A', 'C', 'F']","['A', 'C', 'E', 'F']",False,False,True,False,2,1,isolated,isolated
+H1,2,"['A', 'A', 'C', 'F']","['A', 'A', 'C', 'F']",True,True,True,True,0,0,isolated,isolated
+H1,3,"['A', 'E', 'C', 'D', 'A', 'F']","['A', 'C', 'D', 'F']",False,False,True,False,-5,-2,isolated,isolated
+H1,4,"['A', 'C', 'F']","['A', 'C', 'F']",False,False,True,True,0,0,isolated,isolated
+H1,5,"['A', 'C']","['A', 'C']",False,True,True,True,0,0,invalid_output,invalid_output
+H2,1,"['A', 'C']","['A', 'C']",False,False,True,True,0,0,isolated,isolated
+H2,2,"['A', 'A', 'E', 'C']","['A', 'A', 'C']",True,True,True,False,-2,-1,isolated,isolated
+H2,3,"['A', 'E', 'C']","['A', 'C']",False,False,True,False,-2,-1,isolated,isolated
+H2,4,"['A', 'C']","['A', 'C']",False,False,True,True,0,0,isolated,isolated
+H2,5,"['A', 'C']","['A', 'C']",False,True,True,True,0,0,isolated,isolated
+H3,1,"['A', 'C', 'E', 'F']","['A', 'C', 'F']",False,False,True,False,-2,-1,isolated,isolated
+H3,2,"['A', 'A', 'E', 'C', 'F']","['A', 'C', 'E', 'F']",True,True,True,False,-3,-1,isolated,isolated
+H3,3,"['A', 'E', 'C', 'D', 'B']","['A', 'C', 'A', 'F']",False,False,True,False,4,-1,isolated,isolated
+H3,4,"['A', 'C', 'F']","['A', 'C', 'F']",False,False,True,True,0,0,isolated,isolated
+H3,5,"['A', 'C']","['A', 'C']",False,False,True,True,0,0,invalid_output,invalid_output
+H4,1,['A'],['A'],False,False,True,True,0,0,isolated,isolated
+H4,2,['A'],['A'],True,True,True,True,0,0,isolated,isolated
+H4,3,['A'],['A'],False,False,True,True,0,0,isolated,isolated
+H4,4,['A'],['A'],False,False,True,True,0,0,isolated,isolated
+H4,5,['A'],['A'],False,True,True,True,0,0,isolated,isolated

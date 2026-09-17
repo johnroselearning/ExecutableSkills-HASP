@@ -1,0 +1,1163 @@
+[
+  {
+    "case": "initial",
+    "action": "A",
+    "cost": 3,
+    "remaining": [
+      "H1",
+      "H2",
+      "H3",
+      "H4"
+    ],
+    "possible_observations": [
+      {
+        "observation": "abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.",
+        "survivors": [
+          "H1",
+          "H2",
+          "H3"
+        ],
+        "eliminated": [
+          "H4"
+        ],
+        "probability": 0.75
+      },
+      {
+        "observation": "abc123: POST /api/checkout returns 500 after its payment span returns 503. No uninspected spans remain.",
+        "survivors": [
+          "H4"
+        ],
+        "eliminated": [
+          "H1",
+          "H2",
+          "H3"
+        ],
+        "probability": 0.25
+      }
+    ],
+    "expected_eliminations": 1.5,
+    "expected_eliminations_per_cost": 0.5,
+    "actual_eliminated": [
+      "H4"
+    ],
+    "actual_eliminations_per_cost": 0.3333333333333333,
+    "non_discriminating": false,
+    "repeated": false,
+    "rank": 6
+  },
+  {
+    "case": "initial",
+    "action": "B",
+    "cost": 1,
+    "remaining": [
+      "H1",
+      "H2",
+      "H3",
+      "H4"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.",
+        "survivors": [
+          "H1",
+          "H2"
+        ],
+        "eliminated": [
+          "H3",
+          "H4"
+        ],
+        "probability": 0.5
+      },
+      {
+        "observation": "Matched account, cart, payment method, time and backend: both web and mobile return 500.",
+        "survivors": [
+          "H3",
+          "H4"
+        ],
+        "eliminated": [
+          "H1",
+          "H2"
+        ],
+        "probability": 0.5
+      }
+    ],
+    "expected_eliminations": 2.0,
+    "expected_eliminations_per_cost": 2.0,
+    "actual_eliminated": [
+      "H3",
+      "H4"
+    ],
+    "actual_eliminations_per_cost": 2.0,
+    "non_discriminating": false,
+    "repeated": false,
+    "rank": 2
+  },
+  {
+    "case": "initial",
+    "action": "C",
+    "cost": 4,
+    "remaining": [
+      "H1",
+      "H2",
+      "H3",
+      "H4"
+    ],
+    "possible_observations": [
+      {
+        "observation": "abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.",
+        "survivors": [
+          "H1",
+          "H3"
+        ],
+        "eliminated": [
+          "H2",
+          "H4"
+        ],
+        "probability": 0.5
+      },
+      {
+        "observation": "abc123 exception: required checkout scope missing; middleware converted the authorization exception into HTTP 500.",
+        "survivors": [
+          "H2"
+        ],
+        "eliminated": [
+          "H1",
+          "H3",
+          "H4"
+        ],
+        "probability": 0.25
+      },
+      {
+        "observation": "abc123 exception: PaymentUnavailable, downstream status 503.",
+        "survivors": [
+          "H4"
+        ],
+        "eliminated": [
+          "H1",
+          "H2",
+          "H3"
+        ],
+        "probability": 0.25
+      }
+    ],
+    "expected_eliminations": 2.5,
+    "expected_eliminations_per_cost": 0.625,
+    "actual_eliminated": [
+      "H2",
+      "H4"
+    ],
+    "actual_eliminations_per_cost": 0.5,
+    "non_discriminating": false,
+    "repeated": false,
+    "rank": 4
+  },
+  {
+    "case": "initial",
+    "action": "D",
+    "cost": 1,
+    "remaining": [
+      "H1",
+      "H2",
+      "H3",
+      "H4"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \"1200\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.",
+        "survivors": [
+          "H1",
+          "H3"
+        ],
+        "eliminated": [
+          "H2",
+          "H4"
+        ],
+        "probability": 0.5
+      },
+      {
+        "observation": "Captures for POST /api/checkout (web request-id abc123): equivalent numeric payloads; web lacks X-Checkout-Scope, mobile includes it. Content-Type and X-Checkout-Version also differ. No replay has run.",
+        "survivors": [
+          "H2"
+        ],
+        "eliminated": [
+          "H1",
+          "H3",
+          "H4"
+        ],
+        "probability": 0.25
+      },
+      {
+        "observation": "Captures for POST /api/checkout (web request-id abc123): equivalent numeric payloads and checkout scope; only Content-Type charset spelling and X-Checkout-Version differ. No replay has run.",
+        "survivors": [
+          "H4"
+        ],
+        "eliminated": [
+          "H1",
+          "H2",
+          "H3"
+        ],
+        "probability": 0.25
+      }
+    ],
+    "expected_eliminations": 2.5,
+    "expected_eliminations_per_cost": 2.5,
+    "actual_eliminated": [
+      "H2",
+      "H4"
+    ],
+    "actual_eliminations_per_cost": 2.0,
+    "non_discriminating": false,
+    "repeated": false,
+    "rank": 1
+  },
+  {
+    "case": "initial",
+    "action": "E",
+    "cost": 2,
+    "remaining": [
+      "H1",
+      "H2",
+      "H3",
+      "H4"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.",
+        "survivors": [
+          "H1",
+          "H2",
+          "H3"
+        ],
+        "eliminated": [
+          "H4"
+        ],
+        "probability": 0.75
+      },
+      {
+        "observation": "Incident-window payment probes and this checkout\u2019s payment span return 503; cart and inventory are healthy.",
+        "survivors": [
+          "H4"
+        ],
+        "eliminated": [
+          "H1",
+          "H2",
+          "H3"
+        ],
+        "probability": 0.25
+      }
+    ],
+    "expected_eliminations": 1.5,
+    "expected_eliminations_per_cost": 0.75,
+    "actual_eliminated": [
+      "H4"
+    ],
+    "actual_eliminations_per_cost": 0.5,
+    "non_discriminating": false,
+    "repeated": false,
+    "rank": 3
+  },
+  {
+    "case": "initial",
+    "action": "F",
+    "cost": 5,
+    "remaining": [
+      "H1",
+      "H2",
+      "H3",
+      "H4"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Replay: only replacing web string amount with numeric amount restores success; reintroducing string restores 500. Auth swaps, backend rollback and payment stub do not fix the string request.",
+        "survivors": [
+          "H1"
+        ],
+        "eliminated": [
+          "H2",
+          "H3",
+          "H4"
+        ],
+        "probability": 0.25
+      },
+      {
+        "observation": "Replay: adding checkout scope restores success; removing it restores 500. Payload swap, backend rollback and payment stub do not fix missing scope.",
+        "survivors": [
+          "H2"
+        ],
+        "eliminated": [
+          "H1",
+          "H3",
+          "H4"
+        ],
+        "probability": 0.25
+      },
+      {
+        "observation": "Replay: both payload representations fail on current backend and succeed on previous backend; redeploying current backend restores failure. Auth swaps and payment stub do not fix it.",
+        "survivors": [
+          "H3"
+        ],
+        "eliminated": [
+          "H1",
+          "H2",
+          "H4"
+        ],
+        "probability": 0.25
+      },
+      {
+        "observation": "Replay: payment stub restores success for both clients; reconnecting failed payment restores 500. Payload/auth swaps and backend rollback do not fix it.",
+        "survivors": [
+          "H4"
+        ],
+        "eliminated": [
+          "H1",
+          "H2",
+          "H3"
+        ],
+        "probability": 0.25
+      }
+    ],
+    "expected_eliminations": 3.0,
+    "expected_eliminations_per_cost": 0.6,
+    "actual_eliminated": [
+      "H2",
+      "H3",
+      "H4"
+    ],
+    "actual_eliminations_per_cost": 0.6,
+    "non_discriminating": false,
+    "repeated": false,
+    "rank": 5
+  },
+  {
+    "case": "matched_clients",
+    "action": "A",
+    "cost": 3,
+    "remaining": [
+      "H1",
+      "H2"
+    ],
+    "possible_observations": [
+      {
+        "observation": "abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.",
+        "survivors": [
+          "H1",
+          "H2"
+        ],
+        "eliminated": [],
+        "probability": 1.0
+      }
+    ],
+    "expected_eliminations": 0.0,
+    "expected_eliminations_per_cost": 0.0,
+    "actual_eliminated": [],
+    "actual_eliminations_per_cost": 0.0,
+    "non_discriminating": true,
+    "repeated": false,
+    "rank": 4
+  },
+  {
+    "case": "matched_clients",
+    "action": "B",
+    "cost": 1,
+    "remaining": [
+      "H1",
+      "H2"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.",
+        "survivors": [
+          "H1",
+          "H2"
+        ],
+        "eliminated": [],
+        "probability": 1.0
+      }
+    ],
+    "expected_eliminations": 0.0,
+    "expected_eliminations_per_cost": 0.0,
+    "actual_eliminated": [],
+    "actual_eliminations_per_cost": 0.0,
+    "non_discriminating": true,
+    "repeated": true,
+    "rank": 4
+  },
+  {
+    "case": "matched_clients",
+    "action": "C",
+    "cost": 4,
+    "remaining": [
+      "H1",
+      "H2"
+    ],
+    "possible_observations": [
+      {
+        "observation": "abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.",
+        "survivors": [
+          "H1"
+        ],
+        "eliminated": [
+          "H2"
+        ],
+        "probability": 0.5
+      },
+      {
+        "observation": "abc123 exception: required checkout scope missing; middleware converted the authorization exception into HTTP 500.",
+        "survivors": [
+          "H2"
+        ],
+        "eliminated": [
+          "H1"
+        ],
+        "probability": 0.5
+      }
+    ],
+    "expected_eliminations": 1.0,
+    "expected_eliminations_per_cost": 0.25,
+    "actual_eliminated": [
+      "H2"
+    ],
+    "actual_eliminations_per_cost": 0.25,
+    "non_discriminating": false,
+    "repeated": false,
+    "rank": 2
+  },
+  {
+    "case": "matched_clients",
+    "action": "D",
+    "cost": 1,
+    "remaining": [
+      "H1",
+      "H2"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \"1200\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.",
+        "survivors": [
+          "H1"
+        ],
+        "eliminated": [
+          "H2"
+        ],
+        "probability": 0.5
+      },
+      {
+        "observation": "Captures for POST /api/checkout (web request-id abc123): equivalent numeric payloads; web lacks X-Checkout-Scope, mobile includes it. Content-Type and X-Checkout-Version also differ. No replay has run.",
+        "survivors": [
+          "H2"
+        ],
+        "eliminated": [
+          "H1"
+        ],
+        "probability": 0.5
+      }
+    ],
+    "expected_eliminations": 1.0,
+    "expected_eliminations_per_cost": 1.0,
+    "actual_eliminated": [
+      "H2"
+    ],
+    "actual_eliminations_per_cost": 1.0,
+    "non_discriminating": false,
+    "repeated": false,
+    "rank": 1
+  },
+  {
+    "case": "matched_clients",
+    "action": "E",
+    "cost": 2,
+    "remaining": [
+      "H1",
+      "H2"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.",
+        "survivors": [
+          "H1",
+          "H2"
+        ],
+        "eliminated": [],
+        "probability": 1.0
+      }
+    ],
+    "expected_eliminations": 0.0,
+    "expected_eliminations_per_cost": 0.0,
+    "actual_eliminated": [],
+    "actual_eliminations_per_cost": 0.0,
+    "non_discriminating": true,
+    "repeated": false,
+    "rank": 4
+  },
+  {
+    "case": "matched_clients",
+    "action": "F",
+    "cost": 5,
+    "remaining": [
+      "H1",
+      "H2"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Replay: only replacing web string amount with numeric amount restores success; reintroducing string restores 500. Auth swaps, backend rollback and payment stub do not fix the string request.",
+        "survivors": [
+          "H1"
+        ],
+        "eliminated": [
+          "H2"
+        ],
+        "probability": 0.5
+      },
+      {
+        "observation": "Replay: adding checkout scope restores success; removing it restores 500. Payload swap, backend rollback and payment stub do not fix missing scope.",
+        "survivors": [
+          "H2"
+        ],
+        "eliminated": [
+          "H1"
+        ],
+        "probability": 0.5
+      }
+    ],
+    "expected_eliminations": 1.0,
+    "expected_eliminations_per_cost": 0.2,
+    "actual_eliminated": [
+      "H2"
+    ],
+    "actual_eliminations_per_cost": 0.2,
+    "non_discriminating": false,
+    "repeated": false,
+    "rank": 3
+  },
+  {
+    "case": "request_boundary",
+    "action": "A",
+    "cost": 3,
+    "remaining": [
+      "H1",
+      "H2",
+      "H3"
+    ],
+    "possible_observations": [
+      {
+        "observation": "abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.",
+        "survivors": [
+          "H1",
+          "H2",
+          "H3"
+        ],
+        "eliminated": [],
+        "probability": 1.0
+      }
+    ],
+    "expected_eliminations": 0.0,
+    "expected_eliminations_per_cost": 0.0,
+    "actual_eliminated": [],
+    "actual_eliminations_per_cost": 0.0,
+    "non_discriminating": true,
+    "repeated": true,
+    "rank": 5
+  },
+  {
+    "case": "request_boundary",
+    "action": "B",
+    "cost": 1,
+    "remaining": [
+      "H1",
+      "H2",
+      "H3"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.",
+        "survivors": [
+          "H1",
+          "H2"
+        ],
+        "eliminated": [
+          "H3"
+        ],
+        "probability": 0.6666666666666666
+      },
+      {
+        "observation": "Matched account, cart, payment method, time and backend: both web and mobile return 500.",
+        "survivors": [
+          "H3"
+        ],
+        "eliminated": [
+          "H1",
+          "H2"
+        ],
+        "probability": 0.3333333333333333
+      }
+    ],
+    "expected_eliminations": 1.3333333333333333,
+    "expected_eliminations_per_cost": 1.3333333333333333,
+    "actual_eliminated": [
+      "H3"
+    ],
+    "actual_eliminations_per_cost": 1.0,
+    "non_discriminating": false,
+    "repeated": false,
+    "rank": 1
+  },
+  {
+    "case": "request_boundary",
+    "action": "C",
+    "cost": 4,
+    "remaining": [
+      "H1",
+      "H2",
+      "H3"
+    ],
+    "possible_observations": [
+      {
+        "observation": "abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.",
+        "survivors": [
+          "H1",
+          "H3"
+        ],
+        "eliminated": [
+          "H2"
+        ],
+        "probability": 0.6666666666666666
+      },
+      {
+        "observation": "abc123 exception: required checkout scope missing; middleware converted the authorization exception into HTTP 500.",
+        "survivors": [
+          "H2"
+        ],
+        "eliminated": [
+          "H1",
+          "H3"
+        ],
+        "probability": 0.3333333333333333
+      }
+    ],
+    "expected_eliminations": 1.3333333333333333,
+    "expected_eliminations_per_cost": 0.3333333333333333,
+    "actual_eliminated": [
+      "H2"
+    ],
+    "actual_eliminations_per_cost": 0.25,
+    "non_discriminating": false,
+    "repeated": false,
+    "rank": 4
+  },
+  {
+    "case": "request_boundary",
+    "action": "D",
+    "cost": 1,
+    "remaining": [
+      "H1",
+      "H2",
+      "H3"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \"1200\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.",
+        "survivors": [
+          "H1",
+          "H3"
+        ],
+        "eliminated": [
+          "H2"
+        ],
+        "probability": 0.6666666666666666
+      },
+      {
+        "observation": "Captures for POST /api/checkout (web request-id abc123): equivalent numeric payloads; web lacks X-Checkout-Scope, mobile includes it. Content-Type and X-Checkout-Version also differ. No replay has run.",
+        "survivors": [
+          "H2"
+        ],
+        "eliminated": [
+          "H1",
+          "H3"
+        ],
+        "probability": 0.3333333333333333
+      }
+    ],
+    "expected_eliminations": 1.3333333333333333,
+    "expected_eliminations_per_cost": 1.3333333333333333,
+    "actual_eliminated": [
+      "H2"
+    ],
+    "actual_eliminations_per_cost": 1.0,
+    "non_discriminating": false,
+    "repeated": false,
+    "rank": 1
+  },
+  {
+    "case": "request_boundary",
+    "action": "E",
+    "cost": 2,
+    "remaining": [
+      "H1",
+      "H2",
+      "H3"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.",
+        "survivors": [
+          "H1",
+          "H2",
+          "H3"
+        ],
+        "eliminated": [],
+        "probability": 1.0
+      }
+    ],
+    "expected_eliminations": 0.0,
+    "expected_eliminations_per_cost": 0.0,
+    "actual_eliminated": [],
+    "actual_eliminations_per_cost": 0.0,
+    "non_discriminating": true,
+    "repeated": false,
+    "rank": 5
+  },
+  {
+    "case": "request_boundary",
+    "action": "F",
+    "cost": 5,
+    "remaining": [
+      "H1",
+      "H2",
+      "H3"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Replay: only replacing web string amount with numeric amount restores success; reintroducing string restores 500. Auth swaps, backend rollback and payment stub do not fix the string request.",
+        "survivors": [
+          "H1"
+        ],
+        "eliminated": [
+          "H2",
+          "H3"
+        ],
+        "probability": 0.3333333333333333
+      },
+      {
+        "observation": "Replay: adding checkout scope restores success; removing it restores 500. Payload swap, backend rollback and payment stub do not fix missing scope.",
+        "survivors": [
+          "H2"
+        ],
+        "eliminated": [
+          "H1",
+          "H3"
+        ],
+        "probability": 0.3333333333333333
+      },
+      {
+        "observation": "Replay: both payload representations fail on current backend and succeed on previous backend; redeploying current backend restores failure. Auth swaps and payment stub do not fix it.",
+        "survivors": [
+          "H3"
+        ],
+        "eliminated": [
+          "H1",
+          "H2"
+        ],
+        "probability": 0.3333333333333333
+      }
+    ],
+    "expected_eliminations": 2.0,
+    "expected_eliminations_per_cost": 0.4,
+    "actual_eliminated": [
+      "H2",
+      "H3"
+    ],
+    "actual_eliminations_per_cost": 0.4,
+    "non_discriminating": false,
+    "repeated": false,
+    "rank": 3
+  },
+  {
+    "case": "captured_requests",
+    "action": "A",
+    "cost": 3,
+    "remaining": [
+      "H1",
+      "H3"
+    ],
+    "possible_observations": [
+      {
+        "observation": "abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.",
+        "survivors": [
+          "H1",
+          "H3"
+        ],
+        "eliminated": [],
+        "probability": 1.0
+      }
+    ],
+    "expected_eliminations": 0.0,
+    "expected_eliminations_per_cost": 0.0,
+    "actual_eliminated": [],
+    "actual_eliminations_per_cost": 0.0,
+    "non_discriminating": true,
+    "repeated": false,
+    "rank": 3
+  },
+  {
+    "case": "captured_requests",
+    "action": "B",
+    "cost": 1,
+    "remaining": [
+      "H1",
+      "H3"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.",
+        "survivors": [
+          "H1"
+        ],
+        "eliminated": [
+          "H3"
+        ],
+        "probability": 0.5
+      },
+      {
+        "observation": "Matched account, cart, payment method, time and backend: both web and mobile return 500.",
+        "survivors": [
+          "H3"
+        ],
+        "eliminated": [
+          "H1"
+        ],
+        "probability": 0.5
+      }
+    ],
+    "expected_eliminations": 1.0,
+    "expected_eliminations_per_cost": 1.0,
+    "actual_eliminated": [
+      "H3"
+    ],
+    "actual_eliminations_per_cost": 1.0,
+    "non_discriminating": false,
+    "repeated": false,
+    "rank": 1
+  },
+  {
+    "case": "captured_requests",
+    "action": "C",
+    "cost": 4,
+    "remaining": [
+      "H1",
+      "H3"
+    ],
+    "possible_observations": [
+      {
+        "observation": "abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.",
+        "survivors": [
+          "H1",
+          "H3"
+        ],
+        "eliminated": [],
+        "probability": 1.0
+      }
+    ],
+    "expected_eliminations": 0.0,
+    "expected_eliminations_per_cost": 0.0,
+    "actual_eliminated": [],
+    "actual_eliminations_per_cost": 0.0,
+    "non_discriminating": true,
+    "repeated": false,
+    "rank": 3
+  },
+  {
+    "case": "captured_requests",
+    "action": "D",
+    "cost": 1,
+    "remaining": [
+      "H1",
+      "H3"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \"1200\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.",
+        "survivors": [
+          "H1",
+          "H3"
+        ],
+        "eliminated": [],
+        "probability": 1.0
+      }
+    ],
+    "expected_eliminations": 0.0,
+    "expected_eliminations_per_cost": 0.0,
+    "actual_eliminated": [],
+    "actual_eliminations_per_cost": 0.0,
+    "non_discriminating": true,
+    "repeated": true,
+    "rank": 3
+  },
+  {
+    "case": "captured_requests",
+    "action": "E",
+    "cost": 2,
+    "remaining": [
+      "H1",
+      "H3"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.",
+        "survivors": [
+          "H1",
+          "H3"
+        ],
+        "eliminated": [],
+        "probability": 1.0
+      }
+    ],
+    "expected_eliminations": 0.0,
+    "expected_eliminations_per_cost": 0.0,
+    "actual_eliminated": [],
+    "actual_eliminations_per_cost": 0.0,
+    "non_discriminating": true,
+    "repeated": false,
+    "rank": 3
+  },
+  {
+    "case": "captured_requests",
+    "action": "F",
+    "cost": 5,
+    "remaining": [
+      "H1",
+      "H3"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Replay: only replacing web string amount with numeric amount restores success; reintroducing string restores 500. Auth swaps, backend rollback and payment stub do not fix the string request.",
+        "survivors": [
+          "H1"
+        ],
+        "eliminated": [
+          "H3"
+        ],
+        "probability": 0.5
+      },
+      {
+        "observation": "Replay: both payload representations fail on current backend and succeed on previous backend; redeploying current backend restores failure. Auth swaps and payment stub do not fix it.",
+        "survivors": [
+          "H3"
+        ],
+        "eliminated": [
+          "H1"
+        ],
+        "probability": 0.5
+      }
+    ],
+    "expected_eliminations": 1.0,
+    "expected_eliminations_per_cost": 0.2,
+    "actual_eliminated": [
+      "H3"
+    ],
+    "actual_eliminations_per_cost": 0.2,
+    "non_discriminating": false,
+    "repeated": false,
+    "rank": 2
+  },
+  {
+    "case": "matched_and_healthy",
+    "action": "A",
+    "cost": 3,
+    "remaining": [
+      "H1",
+      "H2"
+    ],
+    "possible_observations": [
+      {
+        "observation": "abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.",
+        "survivors": [
+          "H1",
+          "H2"
+        ],
+        "eliminated": [],
+        "probability": 1.0
+      }
+    ],
+    "expected_eliminations": 0.0,
+    "expected_eliminations_per_cost": 0.0,
+    "actual_eliminated": [],
+    "actual_eliminations_per_cost": 0.0,
+    "non_discriminating": true,
+    "repeated": false,
+    "rank": 4
+  },
+  {
+    "case": "matched_and_healthy",
+    "action": "B",
+    "cost": 1,
+    "remaining": [
+      "H1",
+      "H2"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.",
+        "survivors": [
+          "H1",
+          "H2"
+        ],
+        "eliminated": [],
+        "probability": 1.0
+      }
+    ],
+    "expected_eliminations": 0.0,
+    "expected_eliminations_per_cost": 0.0,
+    "actual_eliminated": [],
+    "actual_eliminations_per_cost": 0.0,
+    "non_discriminating": true,
+    "repeated": true,
+    "rank": 4
+  },
+  {
+    "case": "matched_and_healthy",
+    "action": "C",
+    "cost": 4,
+    "remaining": [
+      "H1",
+      "H2"
+    ],
+    "possible_observations": [
+      {
+        "observation": "abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.",
+        "survivors": [
+          "H1"
+        ],
+        "eliminated": [
+          "H2"
+        ],
+        "probability": 0.5
+      },
+      {
+        "observation": "abc123 exception: required checkout scope missing; middleware converted the authorization exception into HTTP 500.",
+        "survivors": [
+          "H2"
+        ],
+        "eliminated": [
+          "H1"
+        ],
+        "probability": 0.5
+      }
+    ],
+    "expected_eliminations": 1.0,
+    "expected_eliminations_per_cost": 0.25,
+    "actual_eliminated": [
+      "H2"
+    ],
+    "actual_eliminations_per_cost": 0.25,
+    "non_discriminating": false,
+    "repeated": false,
+    "rank": 2
+  },
+  {
+    "case": "matched_and_healthy",
+    "action": "D",
+    "cost": 1,
+    "remaining": [
+      "H1",
+      "H2"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \"1200\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.",
+        "survivors": [
+          "H1"
+        ],
+        "eliminated": [
+          "H2"
+        ],
+        "probability": 0.5
+      },
+      {
+        "observation": "Captures for POST /api/checkout (web request-id abc123): equivalent numeric payloads; web lacks X-Checkout-Scope, mobile includes it. Content-Type and X-Checkout-Version also differ. No replay has run.",
+        "survivors": [
+          "H2"
+        ],
+        "eliminated": [
+          "H1"
+        ],
+        "probability": 0.5
+      }
+    ],
+    "expected_eliminations": 1.0,
+    "expected_eliminations_per_cost": 1.0,
+    "actual_eliminated": [
+      "H2"
+    ],
+    "actual_eliminations_per_cost": 1.0,
+    "non_discriminating": false,
+    "repeated": false,
+    "rank": 1
+  },
+  {
+    "case": "matched_and_healthy",
+    "action": "E",
+    "cost": 2,
+    "remaining": [
+      "H1",
+      "H2"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.",
+        "survivors": [
+          "H1",
+          "H2"
+        ],
+        "eliminated": [],
+        "probability": 1.0
+      }
+    ],
+    "expected_eliminations": 0.0,
+    "expected_eliminations_per_cost": 0.0,
+    "actual_eliminated": [],
+    "actual_eliminations_per_cost": 0.0,
+    "non_discriminating": true,
+    "repeated": true,
+    "rank": 4
+  },
+  {
+    "case": "matched_and_healthy",
+    "action": "F",
+    "cost": 5,
+    "remaining": [
+      "H1",
+      "H2"
+    ],
+    "possible_observations": [
+      {
+        "observation": "Replay: only replacing web string amount with numeric amount restores success; reintroducing string restores 500. Auth swaps, backend rollback and payment stub do not fix the string request.",
+        "survivors": [
+          "H1"
+        ],
+        "eliminated": [
+          "H2"
+        ],
+        "probability": 0.5
+      },
+      {
+        "observation": "Replay: adding checkout scope restores success; removing it restores 500. Payload swap, backend rollback and payment stub do not fix missing scope.",
+        "survivors": [
+          "H2"
+        ],
+        "eliminated": [
+          "H1"
+        ],
+        "probability": 0.5
+      }
+    ],
+    "expected_eliminations": 1.0,
+    "expected_eliminations_per_cost": 0.2,
+    "actual_eliminated": [
+      "H2"
+    ],
+    "actual_eliminations_per_cost": 0.2,
+    "non_discriminating": false,
+    "repeated": false,
+    "rank": 3
+  }
+]

@@ -1,0 +1,48 @@
+{
+  "H1": {
+    "minimum_additional_cost": 2,
+    "minimum_additional_steps": 1,
+    "cheapest_paths": [
+      [
+        "B",
+        "D"
+      ],
+      [
+        "D",
+        "B"
+      ]
+    ]
+  },
+  "H2": {
+    "minimum_additional_cost": 1,
+    "minimum_additional_steps": 1,
+    "cheapest_paths": [
+      [
+        "D"
+      ]
+    ]
+  },
+  "H3": {
+    "minimum_additional_cost": 2,
+    "minimum_additional_steps": 1,
+    "cheapest_paths": [
+      [
+        "B",
+        "D"
+      ],
+      [
+        "D",
+        "B"
+      ]
+    ]
+  },
+  "H4": {
+    "minimum_additional_cost": 1,
+    "minimum_additional_steps": 1,
+    "cheapest_paths": [
+      [
+        "D"
+      ]
+    ]
+  }
+}

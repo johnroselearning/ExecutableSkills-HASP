@@ -192,7 +192,7 @@ def main() -> None:
                                  description="inspect and demonstrate one PF skill")
     ap.add_argument("skill", nargs="?", help="skill id")
     ap.add_argument("--list", action="store_true", help="list every skill")
-    ap.add_argument("--domain", choices=["math", "web", "code"])
+    ap.add_argument("--domain", choices=["math", "web", "code", "support"])
     ap.add_argument("--demo", action="store_true", help="run it on a built-in rollout")
     ap.add_argument("--on", metavar="FILE", help="run it on a rollout of your own")
     a = ap.parse_args()

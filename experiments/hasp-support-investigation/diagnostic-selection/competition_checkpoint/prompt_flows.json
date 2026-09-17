@@ -1,0 +1,642 @@
+{
+  "S01": {
+    "A_base_shared": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      }
+    ],
+    "B_selector": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "You just produced a candidate answer for the problem above. Before we finalise, you may invoke any number of program-function (PF) checks on your answer. Each PF inspects a specific failure mode and either accepts your answer, rewrites it, or asks you to revise.\n\nAvailable PFs (id: summary):\n- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.\n\nSelect the PFs that are MOST RELEVANT to the problem you just solved. Output ONLY the selections, one tag per PF, in the form:\n<pf>skill_id_1</pf>\n<pf>skill_id_2</pf>\nIf no PF is needed, output nothing.\n\nYour candidate answer for review:\n<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>\n\nSelection:"
+      }
+    ],
+    "B_revision_template": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n<ACTUAL NATIVE INTERVENTIONS IN DISPATCH ORDER>\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "C_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n[evidence_collection @step] Missing evidence: request_captured. Capture the failing request with method, URL, headers, body, response, timestamp and correlation ID; redact credentials.\n\n[dependency_trace @step] Inspect checkout calls to cart, inventory and payment services. Check per-request status, latency, routing and input propagation; a successful mobile checkout or unchanged backend version does not exclude a dependency failure caused by different web inputs.\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "D_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "Review your proposed diagnostic action once more using only the evidence already available and return your final action. Use the same single-action JSON format."
+      }
+    ]
+  },
+  "S02": {
+    "A_base_shared": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"B\", \"cost\": 1, \"observation\": \"Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      }
+    ],
+    "B_selector": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"B\", \"cost\": 1, \"observation\": \"Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "You just produced a candidate answer for the problem above. Before we finalise, you may invoke any number of program-function (PF) checks on your answer. Each PF inspects a specific failure mode and either accepts your answer, rewrites it, or asks you to revise.\n\nAvailable PFs (id: summary):\n- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.\n\nSelect the PFs that are MOST RELEVANT to the problem you just solved. Output ONLY the selections, one tag per PF, in the form:\n<pf>skill_id_1</pf>\n<pf>skill_id_2</pf>\nIf no PF is needed, output nothing.\n\nYour candidate answer for review:\n<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>\n\nSelection:"
+      }
+    ],
+    "B_revision_template": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"B\", \"cost\": 1, \"observation\": \"Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n<ACTUAL NATIVE INTERVENTIONS IN DISPATCH ORDER>\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "C_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"B\", \"cost\": 1, \"observation\": \"Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n[evidence_collection @step] Missing evidence: endpoint, request_id, request_captured. Capture the failing request with method, URL, headers, body, response, timestamp and correlation ID; redact credentials.\n\n[comparison_experiment @step] Compare the failing web request with a successful mobile request for the same account and operation. Hold account, cart, timing and backend constant; compare headers and payloads, then replay one changed factor at a time in a test environment to check whether the failure follows it.\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "D_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"B\", \"cost\": 1, \"observation\": \"Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "Review your proposed diagnostic action once more using only the evidence already available and return your final action. Use the same single-action JSON format."
+      }
+    ]
+  },
+  "S03": {
+    "A_base_shared": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"C\", \"cost\": 4, \"observation\": \"abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      }
+    ],
+    "B_selector": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"C\", \"cost\": 4, \"observation\": \"abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "You just produced a candidate answer for the problem above. Before we finalise, you may invoke any number of program-function (PF) checks on your answer. Each PF inspects a specific failure mode and either accepts your answer, rewrites it, or asks you to revise.\n\nAvailable PFs (id: summary):\n- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.\n\nSelect the PFs that are MOST RELEVANT to the problem you just solved. Output ONLY the selections, one tag per PF, in the form:\n<pf>skill_id_1</pf>\n<pf>skill_id_2</pf>\nIf no PF is needed, output nothing.\n\nYour candidate answer for review:\n<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>\n\nSelection:"
+      }
+    ],
+    "B_revision_template": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"C\", \"cost\": 4, \"observation\": \"abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n<ACTUAL NATIVE INTERVENTIONS IN DISPATCH ORDER>\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "C_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"C\", \"cost\": 4, \"observation\": \"abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n[evidence_collection @step] Missing evidence: request_captured. Capture the failing request with method, URL, headers, body, response, timestamp and correlation ID; redact credentials.\n\n[request_id_trace @step] Trace request abc123 for /api/checkout through gateway and application logs. Locate the first failing span and its error details; correlate by request ID and timestamp.\n\n[dependency_trace @step] Inspect checkout calls to cart, inventory and payment services. Check per-request status, latency, routing and input propagation; a successful mobile checkout or unchanged backend version does not exclude a dependency failure caused by different web inputs.\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "D_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"C\", \"cost\": 4, \"observation\": \"abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "Review your proposed diagnostic action once more using only the evidence already available and return your final action. Use the same single-action JSON format."
+      }
+    ]
+  },
+  "S04": {
+    "A_base_shared": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"D\", \"cost\": 1, \"observation\": \"Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \\\"1200\\\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      }
+    ],
+    "B_selector": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"D\", \"cost\": 1, \"observation\": \"Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \\\"1200\\\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "You just produced a candidate answer for the problem above. Before we finalise, you may invoke any number of program-function (PF) checks on your answer. Each PF inspects a specific failure mode and either accepts your answer, rewrites it, or asks you to revise.\n\nAvailable PFs (id: summary):\n- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.\n\nSelect the PFs that are MOST RELEVANT to the problem you just solved. Output ONLY the selections, one tag per PF, in the form:\n<pf>skill_id_1</pf>\n<pf>skill_id_2</pf>\nIf no PF is needed, output nothing.\n\nYour candidate answer for review:\n<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>\n\nSelection:"
+      }
+    ],
+    "B_revision_template": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"D\", \"cost\": 1, \"observation\": \"Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \\\"1200\\\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n<ACTUAL NATIVE INTERVENTIONS IN DISPATCH ORDER>\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "C_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"D\", \"cost\": 1, \"observation\": \"Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \\\"1200\\\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n[request_id_trace @step] Trace request abc123 for /api/checkout through gateway and application logs. Locate the first failing span and its error details; correlate by request ID and timestamp.\n\n[dependency_trace @step] Inspect checkout calls to cart, inventory and payment services. Check per-request status, latency, routing and input propagation; a successful mobile checkout or unchanged backend version does not exclude a dependency failure caused by different web inputs.\n\n[binary_isolation @step] In a test reproduction, bisect the differing header set or frontend deployment changes against a known-good control. Test both halves and their combination, allowing for interacting changes; retain the smallest set that reproduces the failure and verify by reintroduction.\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "D_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"D\", \"cost\": 1, \"observation\": \"Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \\\"1200\\\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "Review your proposed diagnostic action once more using only the evidence already available and return your final action. Use the same single-action JSON format."
+      }
+    ]
+  },
+  "S05": {
+    "A_base_shared": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      }
+    ],
+    "B_selector": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "You just produced a candidate answer for the problem above. Before we finalise, you may invoke any number of program-function (PF) checks on your answer. Each PF inspects a specific failure mode and either accepts your answer, rewrites it, or asks you to revise.\n\nAvailable PFs (id: summary):\n- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.\n\nSelect the PFs that are MOST RELEVANT to the problem you just solved. Output ONLY the selections, one tag per PF, in the form:\n<pf>skill_id_1</pf>\n<pf>skill_id_2</pf>\nIf no PF is needed, output nothing.\n\nYour candidate answer for review:\n<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>\n\nSelection:"
+      }
+    ],
+    "B_revision_template": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n<ACTUAL NATIVE INTERVENTIONS IN DISPATCH ORDER>\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "C_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n[evidence_collection @step] Missing evidence: request_captured. Capture the failing request with method, URL, headers, body, response, timestamp and correlation ID; redact credentials.\n\n[request_id_trace @step] Trace request abc123 for /api/checkout through gateway and application logs. Locate the first failing span and its error details; correlate by request ID and timestamp.\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "D_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "Review your proposed diagnostic action once more using only the evidence already available and return your final action. Use the same single-action JSON format."
+      }
+    ]
+  },
+  "S06": {
+    "A_base_shared": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}, {\"action\": \"B\", \"cost\": 1, \"observation\": \"Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      }
+    ],
+    "B_selector": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}, {\"action\": \"B\", \"cost\": 1, \"observation\": \"Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "You just produced a candidate answer for the problem above. Before we finalise, you may invoke any number of program-function (PF) checks on your answer. Each PF inspects a specific failure mode and either accepts your answer, rewrites it, or asks you to revise.\n\nAvailable PFs (id: summary):\n- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.\n\nSelect the PFs that are MOST RELEVANT to the problem you just solved. Output ONLY the selections, one tag per PF, in the form:\n<pf>skill_id_1</pf>\n<pf>skill_id_2</pf>\nIf no PF is needed, output nothing.\n\nYour candidate answer for review:\n<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>\n\nSelection:"
+      }
+    ],
+    "B_revision_template": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}, {\"action\": \"B\", \"cost\": 1, \"observation\": \"Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n<ACTUAL NATIVE INTERVENTIONS IN DISPATCH ORDER>\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "C_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}, {\"action\": \"B\", \"cost\": 1, \"observation\": \"Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n[evidence_collection @step] Missing evidence: request_captured. Capture the failing request with method, URL, headers, body, response, timestamp and correlation ID; redact credentials.\n\n[comparison_experiment @step] Compare the failing web request with a successful mobile request for the same account and operation. Hold account, cart, timing and backend constant; compare headers and payloads, then replay one changed factor at a time in a test environment to check whether the failure follows it.\n\n[dependency_trace @step] Inspect checkout calls to cart, inventory and payment services. Check per-request status, latency, routing and input propagation; a successful mobile checkout or unchanged backend version does not exclude a dependency failure caused by different web inputs.\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "D_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}, {\"action\": \"B\", \"cost\": 1, \"observation\": \"Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "Review your proposed diagnostic action once more using only the evidence already available and return your final action. Use the same single-action JSON format."
+      }
+    ]
+  },
+  "S07": {
+    "A_base_shared": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}, {\"action\": \"D\", \"cost\": 1, \"observation\": \"Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \\\"1200\\\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      }
+    ],
+    "B_selector": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}, {\"action\": \"D\", \"cost\": 1, \"observation\": \"Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \\\"1200\\\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "You just produced a candidate answer for the problem above. Before we finalise, you may invoke any number of program-function (PF) checks on your answer. Each PF inspects a specific failure mode and either accepts your answer, rewrites it, or asks you to revise.\n\nAvailable PFs (id: summary):\n- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.\n\nSelect the PFs that are MOST RELEVANT to the problem you just solved. Output ONLY the selections, one tag per PF, in the form:\n<pf>skill_id_1</pf>\n<pf>skill_id_2</pf>\nIf no PF is needed, output nothing.\n\nYour candidate answer for review:\n<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>\n\nSelection:"
+      }
+    ],
+    "B_revision_template": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}, {\"action\": \"D\", \"cost\": 1, \"observation\": \"Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \\\"1200\\\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n<ACTUAL NATIVE INTERVENTIONS IN DISPATCH ORDER>\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "C_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}, {\"action\": \"D\", \"cost\": 1, \"observation\": \"Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \\\"1200\\\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n[dependency_trace @step] Inspect checkout calls to cart, inventory and payment services. Check per-request status, latency, routing and input propagation; a successful mobile checkout or unchanged backend version does not exclude a dependency failure caused by different web inputs.\n\n[binary_isolation @step] In a test reproduction, bisect the differing header set or frontend deployment changes against a known-good control. Test both halves and their combination, allowing for interacting changes; retain the smallest set that reproduces the failure and verify by reintroduction.\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "D_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}, {\"action\": \"D\", \"cost\": 1, \"observation\": \"Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \\\"1200\\\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "Review your proposed diagnostic action once more using only the evidence already available and return your final action. Use the same single-action JSON format."
+      }
+    ]
+  },
+  "S08": {
+    "A_base_shared": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"B\", \"cost\": 1, \"observation\": \"Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      }
+    ],
+    "B_selector": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"B\", \"cost\": 1, \"observation\": \"Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "You just produced a candidate answer for the problem above. Before we finalise, you may invoke any number of program-function (PF) checks on your answer. Each PF inspects a specific failure mode and either accepts your answer, rewrites it, or asks you to revise.\n\nAvailable PFs (id: summary):\n- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.\n\nSelect the PFs that are MOST RELEVANT to the problem you just solved. Output ONLY the selections, one tag per PF, in the form:\n<pf>skill_id_1</pf>\n<pf>skill_id_2</pf>\nIf no PF is needed, output nothing.\n\nYour candidate answer for review:\n<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>\n\nSelection:"
+      }
+    ],
+    "B_revision_template": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"B\", \"cost\": 1, \"observation\": \"Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n<ACTUAL NATIVE INTERVENTIONS IN DISPATCH ORDER>\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "C_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"B\", \"cost\": 1, \"observation\": \"Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n[evidence_collection @step] Missing evidence: request_captured. Capture the failing request with method, URL, headers, body, response, timestamp and correlation ID; redact credentials.\n\n[request_id_trace @step] Trace request abc123 for /api/checkout through gateway and application logs. Locate the first failing span and its error details; correlate by request ID and timestamp.\n\n[comparison_experiment @step] Compare the failing web request with a successful mobile request for the same account and operation. Hold account, cart, timing and backend constant; compare headers and payloads, then replay one changed factor at a time in a test environment to check whether the failure follows it.\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "D_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"B\", \"cost\": 1, \"observation\": \"Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "Review your proposed diagnostic action once more using only the evidence already available and return your final action. Use the same single-action JSON format."
+      }
+    ]
+  },
+  "S09": {
+    "A_base_shared": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"C\", \"cost\": 4, \"observation\": \"abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      }
+    ],
+    "B_selector": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"C\", \"cost\": 4, \"observation\": \"abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "You just produced a candidate answer for the problem above. Before we finalise, you may invoke any number of program-function (PF) checks on your answer. Each PF inspects a specific failure mode and either accepts your answer, rewrites it, or asks you to revise.\n\nAvailable PFs (id: summary):\n- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.\n\nSelect the PFs that are MOST RELEVANT to the problem you just solved. Output ONLY the selections, one tag per PF, in the form:\n<pf>skill_id_1</pf>\n<pf>skill_id_2</pf>\nIf no PF is needed, output nothing.\n\nYour candidate answer for review:\n<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>\n\nSelection:"
+      }
+    ],
+    "B_revision_template": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"C\", \"cost\": 4, \"observation\": \"abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n<ACTUAL NATIVE INTERVENTIONS IN DISPATCH ORDER>\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "C_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"C\", \"cost\": 4, \"observation\": \"abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n[evidence_collection @step] Missing evidence: request_captured. Capture the failing request with method, URL, headers, body, response, timestamp and correlation ID; redact credentials.\n\n[request_id_trace @step] Trace request abc123 for /api/checkout through gateway and application logs. Locate the first failing span and its error details; correlate by request ID and timestamp.\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "D_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"C\", \"cost\": 4, \"observation\": \"abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "Review your proposed diagnostic action once more using only the evidence already available and return your final action. Use the same single-action JSON format."
+      }
+    ]
+  },
+  "S10": {
+    "A_base_shared": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"D\", \"cost\": 1, \"observation\": \"Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \\\"1200\\\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      }
+    ],
+    "B_selector": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"D\", \"cost\": 1, \"observation\": \"Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \\\"1200\\\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "You just produced a candidate answer for the problem above. Before we finalise, you may invoke any number of program-function (PF) checks on your answer. Each PF inspects a specific failure mode and either accepts your answer, rewrites it, or asks you to revise.\n\nAvailable PFs (id: summary):\n- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.\n\nSelect the PFs that are MOST RELEVANT to the problem you just solved. Output ONLY the selections, one tag per PF, in the form:\n<pf>skill_id_1</pf>\n<pf>skill_id_2</pf>\nIf no PF is needed, output nothing.\n\nYour candidate answer for review:\n<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>\n\nSelection:"
+      }
+    ],
+    "B_revision_template": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"D\", \"cost\": 1, \"observation\": \"Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \\\"1200\\\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n<ACTUAL NATIVE INTERVENTIONS IN DISPATCH ORDER>\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "C_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"D\", \"cost\": 1, \"observation\": \"Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \\\"1200\\\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "[System Feedback]\n[request_id_trace @step] Trace request abc123 for /api/checkout through gateway and application logs. Locate the first failing span and its error details; correlate by request ID and timestamp.\n\n[binary_isolation @step] In a test reproduction, bisect the differing header set or frontend deployment changes against a known-good control. Test both halves and their combination, allowing for interacting changes; retain the smallest set that reproduces the failure and verify by reintroduction.\n\nPlease provide a revised answer. Use the same single-action JSON format."
+      }
+    ],
+    "D_revision": [
+      {
+        "role": "user",
+        "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"D\", \"cost\": 1, \"observation\": \"Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \\\"1200\\\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+      },
+      {
+        "role": "assistant",
+        "content": "<EXACT SHARED BASE PROPOSAL; GENERATED ONLY AFTER APPROVAL>"
+      },
+      {
+        "role": "user",
+        "content": "Review your proposed diagnostic action once more using only the evidence already available and return your final action. Use the same single-action JSON format."
+      }
+    ]
+  }
+}

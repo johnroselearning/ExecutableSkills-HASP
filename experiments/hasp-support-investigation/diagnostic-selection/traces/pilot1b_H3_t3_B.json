@@ -1,0 +1,2689 @@
+{
+  "episode": {
+    "episode": "H3-t3-B",
+    "world": "H3",
+    "trial": 3,
+    "arm": "B",
+    "status": "isolated",
+    "steps": 5,
+    "cost": 11,
+    "actions": [
+      "A",
+      "E",
+      "C",
+      "D",
+      "B"
+    ],
+    "expected_optimal_count": 1,
+    "top2_count": 1,
+    "zero_information_count": 2,
+    "redundant_repeat_count": 0,
+    "final_viable": [
+      "H3"
+    ],
+    "baseline": {
+      "minimum_additional_cost": 2,
+      "minimum_additional_steps": 1,
+      "cheapest_paths": [
+        [
+          "B",
+          "D"
+        ],
+        [
+          "D",
+          "B"
+        ]
+      ]
+    },
+    "timestamp": "2026-09-16T02:59:36.879696+00:00"
+  },
+  "steps": [
+    {
+      "episode": "H3-t3-B",
+      "world": "H3",
+      "trial": 3,
+      "arm": "B",
+      "step": 0,
+      "cumulative_evidence": {
+        "problem": "Checkout returns HTTP 500. No root cause is known.",
+        "history": [],
+        "support_evidence": {
+          "operation": "checkout",
+          "status": 500
+        }
+      },
+      "full_pf_menu": "- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.",
+      "available_pf_menu": "- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.",
+      "raw_pf_selector_output": "<pf>evidence_collection</pf>",
+      "selected_pf_ids": [
+        "evidence_collection"
+      ],
+      "retained_pf_ids": [],
+      "should_activate": {
+        "evidence_collection": true
+      },
+      "records": [
+        {
+          "skill_id": "evidence_collection",
+          "step": 0,
+          "activated": true,
+          "intervention_type": "inject_context",
+          "reason": "request evidence incomplete",
+          "original_action": "INVESTIGATE",
+          "original_arg": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"Since the checkout returns an HTTP 500, inspecting the backend exception and logs (C) is the most direct way to find the root cause of the server error.\"\n}\n```",
+          "context_text": "[evidence_collection @step] Missing evidence: endpoint, request_id, request_captured. Capture the failing request with method, URL, headers, body, response, timestamp and correlation ID; redact creden"
+        }
+      ],
+      "interventions": [
+        "[evidence_collection @step] Missing evidence: endpoint, request_id, request_captured. Capture the failing request with method, URL, headers, body, response, timestamp and correlation ID; redact credentials."
+      ],
+      "base_model_proposed_action": "C",
+      "base_proposal_text": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"Since the checkout returns an HTTP 500, inspecting the backend exception and logs (C) is the most direct way to find the root cause of the server error.\"\n}\n```",
+      "policy_revision_text": "```json\n{\n  \"action\": \"A\",\n  \"reason\": \"The system feedback indicates missing evidence, specifically the request details. Action A, 'Trace request ID', is designed to inspect complete request spans and failure boundaries, which should help gather the required request context (URL, headers, body, response) necessary for diagnosis.\"\n}\n```",
+      "resulting_policy_action": "A",
+      "oracle_observation": {
+        "action": "A",
+        "observation": "abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.",
+        "facts": {
+          "endpoint": "/api/checkout",
+          "method": "POST",
+          "request_id": "abc123",
+          "trace_exhausted": true
+        },
+        "cost": 3
+      },
+      "diagnostic_cost": 3,
+      "fire_counts_before": {},
+      "fire_counts_after": {
+        "evidence_collection": 1
+      },
+      "calls": {
+        "policy": "call-00140",
+        "selector": "call-00160",
+        "revision": "call-00161"
+      },
+      "timestamp": "2026-09-16T02:58:38.922534+00:00",
+      "base_proposal_reused": true,
+      "selector_nonempty_unparsed": false,
+      "dispatch_action_type": "INVESTIGATE",
+      "dispatch_argument": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"Since the checkout returns an HTTP 500, inspecting the backend exception and logs (C) is the most direct way to find the root cause of the server error.\"\n}\n```",
+      "offline": {
+        "viable_before": [
+          "H1",
+          "H2",
+          "H3",
+          "H4"
+        ],
+        "viable_after": [
+          "H1",
+          "H2",
+          "H3"
+        ],
+        "all_action_scores": [
+          {
+            "action": "A",
+            "cost": 3,
+            "remaining": [
+              "H1",
+              "H2",
+              "H3",
+              "H4"
+            ],
+            "possible_observations": [
+              {
+                "observation": "abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.",
+                "survivors": [
+                  "H1",
+                  "H2",
+                  "H3"
+                ],
+                "eliminated": [
+                  "H4"
+                ],
+                "probability": 0.75
+              },
+              {
+                "observation": "abc123: POST /api/checkout returns 500 after its payment span returns 503. No uninspected spans remain.",
+                "survivors": [
+                  "H4"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H2",
+                  "H3"
+                ],
+                "probability": 0.25
+              }
+            ],
+            "expected_eliminations": 1.5,
+            "expected_eliminations_per_cost": 0.5,
+            "actual_eliminated": [
+              "H4"
+            ],
+            "actual_eliminations_per_cost": 0.3333333333333333,
+            "non_discriminating": false,
+            "repeated": false,
+            "rank": 6
+          },
+          {
+            "action": "B",
+            "cost": 1,
+            "remaining": [
+              "H1",
+              "H2",
+              "H3",
+              "H4"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.",
+                "survivors": [
+                  "H1",
+                  "H2"
+                ],
+                "eliminated": [
+                  "H3",
+                  "H4"
+                ],
+                "probability": 0.5
+              },
+              {
+                "observation": "Matched account, cart, payment method, time and backend: both web and mobile return 500.",
+                "survivors": [
+                  "H3",
+                  "H4"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H2"
+                ],
+                "probability": 0.5
+              }
+            ],
+            "expected_eliminations": 2.0,
+            "expected_eliminations_per_cost": 2.0,
+            "actual_eliminated": [
+              "H1",
+              "H2"
+            ],
+            "actual_eliminations_per_cost": 2.0,
+            "non_discriminating": false,
+            "repeated": false,
+            "rank": 2
+          },
+          {
+            "action": "C",
+            "cost": 4,
+            "remaining": [
+              "H1",
+              "H2",
+              "H3",
+              "H4"
+            ],
+            "possible_observations": [
+              {
+                "observation": "abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.",
+                "survivors": [
+                  "H1",
+                  "H3"
+                ],
+                "eliminated": [
+                  "H2",
+                  "H4"
+                ],
+                "probability": 0.5
+              },
+              {
+                "observation": "abc123 exception: required checkout scope missing; middleware converted the authorization exception into HTTP 500.",
+                "survivors": [
+                  "H2"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H3",
+                  "H4"
+                ],
+                "probability": 0.25
+              },
+              {
+                "observation": "abc123 exception: PaymentUnavailable, downstream status 503.",
+                "survivors": [
+                  "H4"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H2",
+                  "H3"
+                ],
+                "probability": 0.25
+              }
+            ],
+            "expected_eliminations": 2.5,
+            "expected_eliminations_per_cost": 0.625,
+            "actual_eliminated": [
+              "H2",
+              "H4"
+            ],
+            "actual_eliminations_per_cost": 0.5,
+            "non_discriminating": false,
+            "repeated": false,
+            "rank": 4
+          },
+          {
+            "action": "D",
+            "cost": 1,
+            "remaining": [
+              "H1",
+              "H2",
+              "H3",
+              "H4"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \"1200\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.",
+                "survivors": [
+                  "H1",
+                  "H3"
+                ],
+                "eliminated": [
+                  "H2",
+                  "H4"
+                ],
+                "probability": 0.5
+              },
+              {
+                "observation": "Captures for POST /api/checkout (web request-id abc123): equivalent numeric payloads; web lacks X-Checkout-Scope, mobile includes it. Content-Type and X-Checkout-Version also differ. No replay has run.",
+                "survivors": [
+                  "H2"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H3",
+                  "H4"
+                ],
+                "probability": 0.25
+              },
+              {
+                "observation": "Captures for POST /api/checkout (web request-id abc123): equivalent numeric payloads and checkout scope; only Content-Type charset spelling and X-Checkout-Version differ. No replay has run.",
+                "survivors": [
+                  "H4"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H2",
+                  "H3"
+                ],
+                "probability": 0.25
+              }
+            ],
+            "expected_eliminations": 2.5,
+            "expected_eliminations_per_cost": 2.5,
+            "actual_eliminated": [
+              "H2",
+              "H4"
+            ],
+            "actual_eliminations_per_cost": 2.0,
+            "non_discriminating": false,
+            "repeated": false,
+            "rank": 1
+          },
+          {
+            "action": "E",
+            "cost": 2,
+            "remaining": [
+              "H1",
+              "H2",
+              "H3",
+              "H4"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.",
+                "survivors": [
+                  "H1",
+                  "H2",
+                  "H3"
+                ],
+                "eliminated": [
+                  "H4"
+                ],
+                "probability": 0.75
+              },
+              {
+                "observation": "Incident-window payment probes and this checkout\u2019s payment span return 503; cart and inventory are healthy.",
+                "survivors": [
+                  "H4"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H2",
+                  "H3"
+                ],
+                "probability": 0.25
+              }
+            ],
+            "expected_eliminations": 1.5,
+            "expected_eliminations_per_cost": 0.75,
+            "actual_eliminated": [
+              "H4"
+            ],
+            "actual_eliminations_per_cost": 0.5,
+            "non_discriminating": false,
+            "repeated": false,
+            "rank": 3
+          },
+          {
+            "action": "F",
+            "cost": 5,
+            "remaining": [
+              "H1",
+              "H2",
+              "H3",
+              "H4"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Replay: only replacing web string amount with numeric amount restores success; reintroducing string restores 500. Auth swaps, backend rollback and payment stub do not fix the string request.",
+                "survivors": [
+                  "H1"
+                ],
+                "eliminated": [
+                  "H2",
+                  "H3",
+                  "H4"
+                ],
+                "probability": 0.25
+              },
+              {
+                "observation": "Replay: adding checkout scope restores success; removing it restores 500. Payload swap, backend rollback and payment stub do not fix missing scope.",
+                "survivors": [
+                  "H2"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H3",
+                  "H4"
+                ],
+                "probability": 0.25
+              },
+              {
+                "observation": "Replay: both payload representations fail on current backend and succeed on previous backend; redeploying current backend restores failure. Auth swaps and payment stub do not fix it.",
+                "survivors": [
+                  "H3"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H2",
+                  "H4"
+                ],
+                "probability": 0.25
+              },
+              {
+                "observation": "Replay: payment stub restores success for both clients; reconnecting failed payment restores 500. Payload/auth swaps and backend rollback do not fix it.",
+                "survivors": [
+                  "H4"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H2",
+                  "H3"
+                ],
+                "probability": 0.25
+              }
+            ],
+            "expected_eliminations": 3.0,
+            "expected_eliminations_per_cost": 0.6,
+            "actual_eliminated": [
+              "H1",
+              "H2",
+              "H4"
+            ],
+            "actual_eliminations_per_cost": 0.6,
+            "non_discriminating": false,
+            "repeated": false,
+            "rank": 5
+          }
+        ],
+        "chosen_score": {
+          "action": "A",
+          "cost": 3,
+          "remaining": [
+            "H1",
+            "H2",
+            "H3",
+            "H4"
+          ],
+          "possible_observations": [
+            {
+              "observation": "abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.",
+              "survivors": [
+                "H1",
+                "H2",
+                "H3"
+              ],
+              "eliminated": [
+                "H4"
+              ],
+              "probability": 0.75
+            },
+            {
+              "observation": "abc123: POST /api/checkout returns 500 after its payment span returns 503. No uninspected spans remain.",
+              "survivors": [
+                "H4"
+              ],
+              "eliminated": [
+                "H1",
+                "H2",
+                "H3"
+              ],
+              "probability": 0.25
+            }
+          ],
+          "expected_eliminations": 1.5,
+          "expected_eliminations_per_cost": 0.5,
+          "actual_eliminated": [
+            "H4"
+          ],
+          "actual_eliminations_per_cost": 0.3333333333333333,
+          "non_discriminating": false,
+          "repeated": false,
+          "rank": 6
+        },
+        "hypotheses_eliminated": [
+          "H4"
+        ],
+        "expected_optimal": false,
+        "top2": false,
+        "zero_information": false,
+        "redundant_repeat": false
+      },
+      "status_after_step": "continuing",
+      "posthoc": {
+        "best_actions": [
+          "D"
+        ],
+        "base_score": 0.625,
+        "executed_score": 0.5,
+        "score_delta": -0.125,
+        "score_change": "worse",
+        "action_changed": true
+      }
+    },
+    {
+      "episode": "H3-t3-B",
+      "world": "H3",
+      "trial": 3,
+      "arm": "B",
+      "step": 1,
+      "cumulative_evidence": {
+        "problem": "Checkout returns HTTP 500. No root cause is known.",
+        "history": [
+          {
+            "action": "A",
+            "observation": "abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.",
+            "facts": {
+              "endpoint": "/api/checkout",
+              "method": "POST",
+              "request_id": "abc123",
+              "trace_exhausted": true
+            },
+            "cost": 3
+          }
+        ],
+        "support_evidence": {
+          "operation": "checkout",
+          "status": 500,
+          "endpoint": "/api/checkout",
+          "method": "POST",
+          "request_id": "abc123",
+          "trace_exhausted": true
+        }
+      },
+      "full_pf_menu": "- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.",
+      "available_pf_menu": "- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.",
+      "raw_pf_selector_output": "<pf>dependency_trace</pf>",
+      "selected_pf_ids": [
+        "dependency_trace"
+      ],
+      "retained_pf_ids": [],
+      "should_activate": {
+        "dependency_trace": true
+      },
+      "records": [
+        {
+          "skill_id": "dependency_trace",
+          "step": 1,
+          "activated": true,
+          "intervention_type": "inject_context",
+          "reason": "downstream behavior unverified",
+          "original_action": "INVESTIGATE",
+          "original_arg": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"The previous action ('A') indicated a 500 error occurred within the checkout process before the payment call, but it lacked finer exception detail. Inspecting the backend exception/logs ('C') is the most direct next step to find the root cause of the 500 error.\"\n}\n```",
+          "context_text": "[dependency_trace @step] Inspect checkout calls to cart, inventory and payment services. Check per-request status, latency, routing and input propagation; a successful mobile checkout or unchanged bac"
+        }
+      ],
+      "interventions": [
+        "[dependency_trace @step] Inspect checkout calls to cart, inventory and payment services. Check per-request status, latency, routing and input propagation; a successful mobile checkout or unchanged backend version does not exclude a dependency failure caused by different web inputs."
+      ],
+      "base_model_proposed_action": "C",
+      "base_proposal_text": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"The previous action ('A') indicated a 500 error occurred within the checkout process before the payment call, but it lacked finer exception detail. Inspecting the backend exception/logs ('C') is the most direct next step to find the root cause of the 500 error.\"\n}\n```",
+      "policy_revision_text": "```json\n{\n  \"action\": \"E\",\n  \"reason\": \"The system feedback suggests checking dependency failures across multiple services (cart, inventory, payment). Action 'E' ('Check payment/dependency health') is designed to check dependency probes and downstream outcomes, which directly aligns with investigating potential failures in the services called during checkout.\"\n}\n```",
+      "resulting_policy_action": "E",
+      "oracle_observation": {
+        "action": "E",
+        "observation": "Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.",
+        "facts": {
+          "endpoint": "/api/checkout",
+          "method": "POST",
+          "request_id": "abc123",
+          "dependencies_verified_successful": true
+        },
+        "cost": 2
+      },
+      "diagnostic_cost": 2,
+      "fire_counts_before": {
+        "evidence_collection": 1
+      },
+      "fire_counts_after": {
+        "evidence_collection": 1,
+        "dependency_trace": 1
+      },
+      "calls": {
+        "policy": "call-00162",
+        "selector": "call-00163",
+        "revision": "call-00164"
+      },
+      "timestamp": "2026-09-16T02:58:47.920928+00:00",
+      "base_proposal_reused": false,
+      "selector_nonempty_unparsed": false,
+      "dispatch_action_type": "INVESTIGATE",
+      "dispatch_argument": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"The previous action ('A') indicated a 500 error occurred within the checkout process before the payment call, but it lacked finer exception detail. Inspecting the backend exception/logs ('C') is the most direct next step to find the root cause of the 500 error.\"\n}\n```",
+      "offline": {
+        "viable_before": [
+          "H1",
+          "H2",
+          "H3"
+        ],
+        "viable_after": [
+          "H1",
+          "H2",
+          "H3"
+        ],
+        "all_action_scores": [
+          {
+            "action": "A",
+            "cost": 3,
+            "remaining": [
+              "H1",
+              "H2",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.",
+                "survivors": [
+                  "H1",
+                  "H2",
+                  "H3"
+                ],
+                "eliminated": [],
+                "probability": 1.0
+              }
+            ],
+            "expected_eliminations": 0.0,
+            "expected_eliminations_per_cost": 0.0,
+            "actual_eliminated": [],
+            "actual_eliminations_per_cost": 0.0,
+            "non_discriminating": true,
+            "repeated": true,
+            "rank": 5
+          },
+          {
+            "action": "B",
+            "cost": 1,
+            "remaining": [
+              "H1",
+              "H2",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.",
+                "survivors": [
+                  "H1",
+                  "H2"
+                ],
+                "eliminated": [
+                  "H3"
+                ],
+                "probability": 0.6666666666666666
+              },
+              {
+                "observation": "Matched account, cart, payment method, time and backend: both web and mobile return 500.",
+                "survivors": [
+                  "H3"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H2"
+                ],
+                "probability": 0.3333333333333333
+              }
+            ],
+            "expected_eliminations": 1.3333333333333333,
+            "expected_eliminations_per_cost": 1.3333333333333333,
+            "actual_eliminated": [
+              "H1",
+              "H2"
+            ],
+            "actual_eliminations_per_cost": 2.0,
+            "non_discriminating": false,
+            "repeated": false,
+            "rank": 1
+          },
+          {
+            "action": "C",
+            "cost": 4,
+            "remaining": [
+              "H1",
+              "H2",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.",
+                "survivors": [
+                  "H1",
+                  "H3"
+                ],
+                "eliminated": [
+                  "H2"
+                ],
+                "probability": 0.6666666666666666
+              },
+              {
+                "observation": "abc123 exception: required checkout scope missing; middleware converted the authorization exception into HTTP 500.",
+                "survivors": [
+                  "H2"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H3"
+                ],
+                "probability": 0.3333333333333333
+              }
+            ],
+            "expected_eliminations": 1.3333333333333333,
+            "expected_eliminations_per_cost": 0.3333333333333333,
+            "actual_eliminated": [
+              "H2"
+            ],
+            "actual_eliminations_per_cost": 0.25,
+            "non_discriminating": false,
+            "repeated": false,
+            "rank": 4
+          },
+          {
+            "action": "D",
+            "cost": 1,
+            "remaining": [
+              "H1",
+              "H2",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \"1200\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.",
+                "survivors": [
+                  "H1",
+                  "H3"
+                ],
+                "eliminated": [
+                  "H2"
+                ],
+                "probability": 0.6666666666666666
+              },
+              {
+                "observation": "Captures for POST /api/checkout (web request-id abc123): equivalent numeric payloads; web lacks X-Checkout-Scope, mobile includes it. Content-Type and X-Checkout-Version also differ. No replay has run.",
+                "survivors": [
+                  "H2"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H3"
+                ],
+                "probability": 0.3333333333333333
+              }
+            ],
+            "expected_eliminations": 1.3333333333333333,
+            "expected_eliminations_per_cost": 1.3333333333333333,
+            "actual_eliminated": [
+              "H2"
+            ],
+            "actual_eliminations_per_cost": 1.0,
+            "non_discriminating": false,
+            "repeated": false,
+            "rank": 1
+          },
+          {
+            "action": "E",
+            "cost": 2,
+            "remaining": [
+              "H1",
+              "H2",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.",
+                "survivors": [
+                  "H1",
+                  "H2",
+                  "H3"
+                ],
+                "eliminated": [],
+                "probability": 1.0
+              }
+            ],
+            "expected_eliminations": 0.0,
+            "expected_eliminations_per_cost": 0.0,
+            "actual_eliminated": [],
+            "actual_eliminations_per_cost": 0.0,
+            "non_discriminating": true,
+            "repeated": false,
+            "rank": 5
+          },
+          {
+            "action": "F",
+            "cost": 5,
+            "remaining": [
+              "H1",
+              "H2",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Replay: only replacing web string amount with numeric amount restores success; reintroducing string restores 500. Auth swaps, backend rollback and payment stub do not fix the string request.",
+                "survivors": [
+                  "H1"
+                ],
+                "eliminated": [
+                  "H2",
+                  "H3"
+                ],
+                "probability": 0.3333333333333333
+              },
+              {
+                "observation": "Replay: adding checkout scope restores success; removing it restores 500. Payload swap, backend rollback and payment stub do not fix missing scope.",
+                "survivors": [
+                  "H2"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H3"
+                ],
+                "probability": 0.3333333333333333
+              },
+              {
+                "observation": "Replay: both payload representations fail on current backend and succeed on previous backend; redeploying current backend restores failure. Auth swaps and payment stub do not fix it.",
+                "survivors": [
+                  "H3"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H2"
+                ],
+                "probability": 0.3333333333333333
+              }
+            ],
+            "expected_eliminations": 2.0,
+            "expected_eliminations_per_cost": 0.4,
+            "actual_eliminated": [
+              "H1",
+              "H2"
+            ],
+            "actual_eliminations_per_cost": 0.4,
+            "non_discriminating": false,
+            "repeated": false,
+            "rank": 3
+          }
+        ],
+        "chosen_score": {
+          "action": "E",
+          "cost": 2,
+          "remaining": [
+            "H1",
+            "H2",
+            "H3"
+          ],
+          "possible_observations": [
+            {
+              "observation": "Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.",
+              "survivors": [
+                "H1",
+                "H2",
+                "H3"
+              ],
+              "eliminated": [],
+              "probability": 1.0
+            }
+          ],
+          "expected_eliminations": 0.0,
+          "expected_eliminations_per_cost": 0.0,
+          "actual_eliminated": [],
+          "actual_eliminations_per_cost": 0.0,
+          "non_discriminating": true,
+          "repeated": false,
+          "rank": 5
+        },
+        "hypotheses_eliminated": [],
+        "expected_optimal": false,
+        "top2": false,
+        "zero_information": true,
+        "redundant_repeat": false
+      },
+      "status_after_step": "continuing",
+      "posthoc": {
+        "best_actions": [
+          "B",
+          "D"
+        ],
+        "base_score": 0.3333333333333333,
+        "executed_score": 0.0,
+        "score_delta": -0.3333333333333333,
+        "score_change": "worse",
+        "action_changed": true
+      }
+    },
+    {
+      "episode": "H3-t3-B",
+      "world": "H3",
+      "trial": 3,
+      "arm": "B",
+      "step": 2,
+      "cumulative_evidence": {
+        "problem": "Checkout returns HTTP 500. No root cause is known.",
+        "history": [
+          {
+            "action": "A",
+            "observation": "abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.",
+            "facts": {
+              "endpoint": "/api/checkout",
+              "method": "POST",
+              "request_id": "abc123",
+              "trace_exhausted": true
+            },
+            "cost": 3
+          },
+          {
+            "action": "E",
+            "observation": "Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.",
+            "facts": {
+              "endpoint": "/api/checkout",
+              "method": "POST",
+              "request_id": "abc123",
+              "dependencies_verified_successful": true
+            },
+            "cost": 2
+          }
+        ],
+        "support_evidence": {
+          "operation": "checkout",
+          "status": 500,
+          "endpoint": "/api/checkout",
+          "method": "POST",
+          "request_id": "abc123",
+          "trace_exhausted": true,
+          "dependencies_verified_successful": true
+        }
+      },
+      "full_pf_menu": "- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.",
+      "available_pf_menu": "- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.",
+      "raw_pf_selector_output": "<pf>evidence_collection</pf>",
+      "selected_pf_ids": [
+        "evidence_collection"
+      ],
+      "retained_pf_ids": [],
+      "should_activate": {
+        "evidence_collection": false
+      },
+      "records": [
+        {
+          "skill_id": "evidence_collection",
+          "step": 2,
+          "activated": false,
+          "intervention_type": "noop",
+          "reason": ""
+        }
+      ],
+      "interventions": [],
+      "base_model_proposed_action": "C",
+      "base_proposal_text": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"Action A indicated the trace lacks fine exception detail. Action C is necessary to read the full exception and correlated application log for the 500 error observed in the checkout step.\"\n}\n```",
+      "policy_revision_text": null,
+      "resulting_policy_action": "C",
+      "oracle_observation": {
+        "action": "C",
+        "observation": "abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.",
+        "facts": {
+          "endpoint": "/api/checkout",
+          "method": "POST",
+          "request_id": "abc123"
+        },
+        "cost": 4
+      },
+      "diagnostic_cost": 4,
+      "fire_counts_before": {
+        "evidence_collection": 1,
+        "dependency_trace": 1
+      },
+      "fire_counts_after": {
+        "evidence_collection": 1,
+        "dependency_trace": 1
+      },
+      "calls": {
+        "policy": "call-00165",
+        "selector": "call-00166"
+      },
+      "timestamp": "2026-09-16T02:59:03.147282+00:00",
+      "base_proposal_reused": false,
+      "selector_nonempty_unparsed": false,
+      "dispatch_action_type": "INVESTIGATE",
+      "dispatch_argument": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"Action A indicated the trace lacks fine exception detail. Action C is necessary to read the full exception and correlated application log for the 500 error observed in the checkout step.\"\n}\n```",
+      "offline": {
+        "viable_before": [
+          "H1",
+          "H2",
+          "H3"
+        ],
+        "viable_after": [
+          "H1",
+          "H3"
+        ],
+        "all_action_scores": [
+          {
+            "action": "A",
+            "cost": 3,
+            "remaining": [
+              "H1",
+              "H2",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.",
+                "survivors": [
+                  "H1",
+                  "H2",
+                  "H3"
+                ],
+                "eliminated": [],
+                "probability": 1.0
+              }
+            ],
+            "expected_eliminations": 0.0,
+            "expected_eliminations_per_cost": 0.0,
+            "actual_eliminated": [],
+            "actual_eliminations_per_cost": 0.0,
+            "non_discriminating": true,
+            "repeated": true,
+            "rank": 5
+          },
+          {
+            "action": "B",
+            "cost": 1,
+            "remaining": [
+              "H1",
+              "H2",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.",
+                "survivors": [
+                  "H1",
+                  "H2"
+                ],
+                "eliminated": [
+                  "H3"
+                ],
+                "probability": 0.6666666666666666
+              },
+              {
+                "observation": "Matched account, cart, payment method, time and backend: both web and mobile return 500.",
+                "survivors": [
+                  "H3"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H2"
+                ],
+                "probability": 0.3333333333333333
+              }
+            ],
+            "expected_eliminations": 1.3333333333333333,
+            "expected_eliminations_per_cost": 1.3333333333333333,
+            "actual_eliminated": [
+              "H1",
+              "H2"
+            ],
+            "actual_eliminations_per_cost": 2.0,
+            "non_discriminating": false,
+            "repeated": false,
+            "rank": 1
+          },
+          {
+            "action": "C",
+            "cost": 4,
+            "remaining": [
+              "H1",
+              "H2",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.",
+                "survivors": [
+                  "H1",
+                  "H3"
+                ],
+                "eliminated": [
+                  "H2"
+                ],
+                "probability": 0.6666666666666666
+              },
+              {
+                "observation": "abc123 exception: required checkout scope missing; middleware converted the authorization exception into HTTP 500.",
+                "survivors": [
+                  "H2"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H3"
+                ],
+                "probability": 0.3333333333333333
+              }
+            ],
+            "expected_eliminations": 1.3333333333333333,
+            "expected_eliminations_per_cost": 0.3333333333333333,
+            "actual_eliminated": [
+              "H2"
+            ],
+            "actual_eliminations_per_cost": 0.25,
+            "non_discriminating": false,
+            "repeated": false,
+            "rank": 4
+          },
+          {
+            "action": "D",
+            "cost": 1,
+            "remaining": [
+              "H1",
+              "H2",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \"1200\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.",
+                "survivors": [
+                  "H1",
+                  "H3"
+                ],
+                "eliminated": [
+                  "H2"
+                ],
+                "probability": 0.6666666666666666
+              },
+              {
+                "observation": "Captures for POST /api/checkout (web request-id abc123): equivalent numeric payloads; web lacks X-Checkout-Scope, mobile includes it. Content-Type and X-Checkout-Version also differ. No replay has run.",
+                "survivors": [
+                  "H2"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H3"
+                ],
+                "probability": 0.3333333333333333
+              }
+            ],
+            "expected_eliminations": 1.3333333333333333,
+            "expected_eliminations_per_cost": 1.3333333333333333,
+            "actual_eliminated": [
+              "H2"
+            ],
+            "actual_eliminations_per_cost": 1.0,
+            "non_discriminating": false,
+            "repeated": false,
+            "rank": 1
+          },
+          {
+            "action": "E",
+            "cost": 2,
+            "remaining": [
+              "H1",
+              "H2",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.",
+                "survivors": [
+                  "H1",
+                  "H2",
+                  "H3"
+                ],
+                "eliminated": [],
+                "probability": 1.0
+              }
+            ],
+            "expected_eliminations": 0.0,
+            "expected_eliminations_per_cost": 0.0,
+            "actual_eliminated": [],
+            "actual_eliminations_per_cost": 0.0,
+            "non_discriminating": true,
+            "repeated": true,
+            "rank": 5
+          },
+          {
+            "action": "F",
+            "cost": 5,
+            "remaining": [
+              "H1",
+              "H2",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Replay: only replacing web string amount with numeric amount restores success; reintroducing string restores 500. Auth swaps, backend rollback and payment stub do not fix the string request.",
+                "survivors": [
+                  "H1"
+                ],
+                "eliminated": [
+                  "H2",
+                  "H3"
+                ],
+                "probability": 0.3333333333333333
+              },
+              {
+                "observation": "Replay: adding checkout scope restores success; removing it restores 500. Payload swap, backend rollback and payment stub do not fix missing scope.",
+                "survivors": [
+                  "H2"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H3"
+                ],
+                "probability": 0.3333333333333333
+              },
+              {
+                "observation": "Replay: both payload representations fail on current backend and succeed on previous backend; redeploying current backend restores failure. Auth swaps and payment stub do not fix it.",
+                "survivors": [
+                  "H3"
+                ],
+                "eliminated": [
+                  "H1",
+                  "H2"
+                ],
+                "probability": 0.3333333333333333
+              }
+            ],
+            "expected_eliminations": 2.0,
+            "expected_eliminations_per_cost": 0.4,
+            "actual_eliminated": [
+              "H1",
+              "H2"
+            ],
+            "actual_eliminations_per_cost": 0.4,
+            "non_discriminating": false,
+            "repeated": false,
+            "rank": 3
+          }
+        ],
+        "chosen_score": {
+          "action": "C",
+          "cost": 4,
+          "remaining": [
+            "H1",
+            "H2",
+            "H3"
+          ],
+          "possible_observations": [
+            {
+              "observation": "abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.",
+              "survivors": [
+                "H1",
+                "H3"
+              ],
+              "eliminated": [
+                "H2"
+              ],
+              "probability": 0.6666666666666666
+            },
+            {
+              "observation": "abc123 exception: required checkout scope missing; middleware converted the authorization exception into HTTP 500.",
+              "survivors": [
+                "H2"
+              ],
+              "eliminated": [
+                "H1",
+                "H3"
+              ],
+              "probability": 0.3333333333333333
+            }
+          ],
+          "expected_eliminations": 1.3333333333333333,
+          "expected_eliminations_per_cost": 0.3333333333333333,
+          "actual_eliminated": [
+            "H2"
+          ],
+          "actual_eliminations_per_cost": 0.25,
+          "non_discriminating": false,
+          "repeated": false,
+          "rank": 4
+        },
+        "hypotheses_eliminated": [
+          "H2"
+        ],
+        "expected_optimal": false,
+        "top2": false,
+        "zero_information": false,
+        "redundant_repeat": false
+      },
+      "status_after_step": "continuing",
+      "posthoc": {
+        "best_actions": [
+          "B",
+          "D"
+        ],
+        "base_score": 0.3333333333333333,
+        "executed_score": 0.3333333333333333,
+        "score_delta": 0.0,
+        "score_change": "unchanged",
+        "action_changed": false
+      }
+    },
+    {
+      "episode": "H3-t3-B",
+      "world": "H3",
+      "trial": 3,
+      "arm": "B",
+      "step": 3,
+      "cumulative_evidence": {
+        "problem": "Checkout returns HTTP 500. No root cause is known.",
+        "history": [
+          {
+            "action": "A",
+            "observation": "abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.",
+            "facts": {
+              "endpoint": "/api/checkout",
+              "method": "POST",
+              "request_id": "abc123",
+              "trace_exhausted": true
+            },
+            "cost": 3
+          },
+          {
+            "action": "E",
+            "observation": "Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.",
+            "facts": {
+              "endpoint": "/api/checkout",
+              "method": "POST",
+              "request_id": "abc123",
+              "dependencies_verified_successful": true
+            },
+            "cost": 2
+          },
+          {
+            "action": "C",
+            "observation": "abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.",
+            "facts": {
+              "endpoint": "/api/checkout",
+              "method": "POST",
+              "request_id": "abc123"
+            },
+            "cost": 4
+          }
+        ],
+        "support_evidence": {
+          "operation": "checkout",
+          "status": 500,
+          "endpoint": "/api/checkout",
+          "method": "POST",
+          "request_id": "abc123",
+          "trace_exhausted": true,
+          "dependencies_verified_successful": true
+        }
+      },
+      "full_pf_menu": "- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.",
+      "available_pf_menu": "- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.",
+      "raw_pf_selector_output": "<pf>comparison_experiment</pf>\n<pf>evidence_collection</pf>",
+      "selected_pf_ids": [
+        "comparison_experiment",
+        "evidence_collection"
+      ],
+      "retained_pf_ids": [],
+      "should_activate": {
+        "comparison_experiment": false,
+        "evidence_collection": false
+      },
+      "records": [
+        {
+          "skill_id": "comparison_experiment",
+          "step": 3,
+          "activated": false,
+          "intervention_type": "noop",
+          "reason": ""
+        },
+        {
+          "skill_id": "evidence_collection",
+          "step": 3,
+          "activated": false,
+          "intervention_type": "noop",
+          "reason": ""
+        }
+      ],
+      "interventions": [],
+      "base_model_proposed_action": "D",
+      "base_proposal_text": "```json\n{\n  \"action\": \"D\",\n  \"reason\": \"The previous steps identified a specific error path (CheckoutNormalizationError) but couldn't pinpoint the exact input causing it. Comparing request headers and payloads between clients (D) might reveal if the client sending the failing request is sending unexpected or malformed data that triggers the normalization error.\"\n}\n```",
+      "policy_revision_text": null,
+      "resulting_policy_action": "D",
+      "oracle_observation": {
+        "action": "D",
+        "observation": "Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \"1200\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.",
+        "facts": {
+          "endpoint": "/api/checkout",
+          "method": "POST",
+          "request_id": "abc123",
+          "request_captured": true,
+          "differing_headers": [
+            "Content-Type",
+            "X-Checkout-Version"
+          ]
+        },
+        "cost": 1
+      },
+      "diagnostic_cost": 1,
+      "fire_counts_before": {
+        "evidence_collection": 1,
+        "dependency_trace": 1
+      },
+      "fire_counts_after": {
+        "evidence_collection": 1,
+        "dependency_trace": 1
+      },
+      "calls": {
+        "policy": "call-00167",
+        "selector": "call-00168"
+      },
+      "timestamp": "2026-09-16T02:59:11.415587+00:00",
+      "base_proposal_reused": false,
+      "selector_nonempty_unparsed": false,
+      "dispatch_action_type": "INVESTIGATE",
+      "dispatch_argument": "```json\n{\n  \"action\": \"D\",\n  \"reason\": \"The previous steps identified a specific error path (CheckoutNormalizationError) but couldn't pinpoint the exact input causing it. Comparing request headers and payloads between clients (D) might reveal if the client sending the failing request is sending unexpected or malformed data that triggers the normalization error.\"\n}\n```",
+      "offline": {
+        "viable_before": [
+          "H1",
+          "H3"
+        ],
+        "viable_after": [
+          "H1",
+          "H3"
+        ],
+        "all_action_scores": [
+          {
+            "action": "A",
+            "cost": 3,
+            "remaining": [
+              "H1",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.",
+                "survivors": [
+                  "H1",
+                  "H3"
+                ],
+                "eliminated": [],
+                "probability": 1.0
+              }
+            ],
+            "expected_eliminations": 0.0,
+            "expected_eliminations_per_cost": 0.0,
+            "actual_eliminated": [],
+            "actual_eliminations_per_cost": 0.0,
+            "non_discriminating": true,
+            "repeated": true,
+            "rank": 3
+          },
+          {
+            "action": "B",
+            "cost": 1,
+            "remaining": [
+              "H1",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.",
+                "survivors": [
+                  "H1"
+                ],
+                "eliminated": [
+                  "H3"
+                ],
+                "probability": 0.5
+              },
+              {
+                "observation": "Matched account, cart, payment method, time and backend: both web and mobile return 500.",
+                "survivors": [
+                  "H3"
+                ],
+                "eliminated": [
+                  "H1"
+                ],
+                "probability": 0.5
+              }
+            ],
+            "expected_eliminations": 1.0,
+            "expected_eliminations_per_cost": 1.0,
+            "actual_eliminated": [
+              "H1"
+            ],
+            "actual_eliminations_per_cost": 1.0,
+            "non_discriminating": false,
+            "repeated": false,
+            "rank": 1
+          },
+          {
+            "action": "C",
+            "cost": 4,
+            "remaining": [
+              "H1",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.",
+                "survivors": [
+                  "H1",
+                  "H3"
+                ],
+                "eliminated": [],
+                "probability": 1.0
+              }
+            ],
+            "expected_eliminations": 0.0,
+            "expected_eliminations_per_cost": 0.0,
+            "actual_eliminated": [],
+            "actual_eliminations_per_cost": 0.0,
+            "non_discriminating": true,
+            "repeated": true,
+            "rank": 3
+          },
+          {
+            "action": "D",
+            "cost": 1,
+            "remaining": [
+              "H1",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \"1200\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.",
+                "survivors": [
+                  "H1",
+                  "H3"
+                ],
+                "eliminated": [],
+                "probability": 1.0
+              }
+            ],
+            "expected_eliminations": 0.0,
+            "expected_eliminations_per_cost": 0.0,
+            "actual_eliminated": [],
+            "actual_eliminations_per_cost": 0.0,
+            "non_discriminating": true,
+            "repeated": false,
+            "rank": 3
+          },
+          {
+            "action": "E",
+            "cost": 2,
+            "remaining": [
+              "H1",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.",
+                "survivors": [
+                  "H1",
+                  "H3"
+                ],
+                "eliminated": [],
+                "probability": 1.0
+              }
+            ],
+            "expected_eliminations": 0.0,
+            "expected_eliminations_per_cost": 0.0,
+            "actual_eliminated": [],
+            "actual_eliminations_per_cost": 0.0,
+            "non_discriminating": true,
+            "repeated": true,
+            "rank": 3
+          },
+          {
+            "action": "F",
+            "cost": 5,
+            "remaining": [
+              "H1",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Replay: only replacing web string amount with numeric amount restores success; reintroducing string restores 500. Auth swaps, backend rollback and payment stub do not fix the string request.",
+                "survivors": [
+                  "H1"
+                ],
+                "eliminated": [
+                  "H3"
+                ],
+                "probability": 0.5
+              },
+              {
+                "observation": "Replay: both payload representations fail on current backend and succeed on previous backend; redeploying current backend restores failure. Auth swaps and payment stub do not fix it.",
+                "survivors": [
+                  "H3"
+                ],
+                "eliminated": [
+                  "H1"
+                ],
+                "probability": 0.5
+              }
+            ],
+            "expected_eliminations": 1.0,
+            "expected_eliminations_per_cost": 0.2,
+            "actual_eliminated": [
+              "H1"
+            ],
+            "actual_eliminations_per_cost": 0.2,
+            "non_discriminating": false,
+            "repeated": false,
+            "rank": 2
+          }
+        ],
+        "chosen_score": {
+          "action": "D",
+          "cost": 1,
+          "remaining": [
+            "H1",
+            "H3"
+          ],
+          "possible_observations": [
+            {
+              "observation": "Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \"1200\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.",
+              "survivors": [
+                "H1",
+                "H3"
+              ],
+              "eliminated": [],
+              "probability": 1.0
+            }
+          ],
+          "expected_eliminations": 0.0,
+          "expected_eliminations_per_cost": 0.0,
+          "actual_eliminated": [],
+          "actual_eliminations_per_cost": 0.0,
+          "non_discriminating": true,
+          "repeated": false,
+          "rank": 3
+        },
+        "hypotheses_eliminated": [],
+        "expected_optimal": false,
+        "top2": false,
+        "zero_information": true,
+        "redundant_repeat": false
+      },
+      "status_after_step": "continuing",
+      "posthoc": {
+        "best_actions": [
+          "B"
+        ],
+        "base_score": 0.0,
+        "executed_score": 0.0,
+        "score_delta": 0.0,
+        "score_change": "unchanged",
+        "action_changed": false
+      }
+    },
+    {
+      "episode": "H3-t3-B",
+      "world": "H3",
+      "trial": 3,
+      "arm": "B",
+      "step": 4,
+      "cumulative_evidence": {
+        "problem": "Checkout returns HTTP 500. No root cause is known.",
+        "history": [
+          {
+            "action": "A",
+            "observation": "abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.",
+            "facts": {
+              "endpoint": "/api/checkout",
+              "method": "POST",
+              "request_id": "abc123",
+              "trace_exhausted": true
+            },
+            "cost": 3
+          },
+          {
+            "action": "E",
+            "observation": "Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.",
+            "facts": {
+              "endpoint": "/api/checkout",
+              "method": "POST",
+              "request_id": "abc123",
+              "dependencies_verified_successful": true
+            },
+            "cost": 2
+          },
+          {
+            "action": "C",
+            "observation": "abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.",
+            "facts": {
+              "endpoint": "/api/checkout",
+              "method": "POST",
+              "request_id": "abc123"
+            },
+            "cost": 4
+          },
+          {
+            "action": "D",
+            "observation": "Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \"1200\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.",
+            "facts": {
+              "endpoint": "/api/checkout",
+              "method": "POST",
+              "request_id": "abc123",
+              "request_captured": true,
+              "differing_headers": [
+                "Content-Type",
+                "X-Checkout-Version"
+              ]
+            },
+            "cost": 1
+          }
+        ],
+        "support_evidence": {
+          "operation": "checkout",
+          "status": 500,
+          "endpoint": "/api/checkout",
+          "method": "POST",
+          "request_id": "abc123",
+          "trace_exhausted": true,
+          "dependencies_verified_successful": true,
+          "request_captured": true,
+          "differing_headers": [
+            "Content-Type",
+            "X-Checkout-Version"
+          ]
+        }
+      },
+      "full_pf_menu": "- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.",
+      "available_pf_menu": "- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.",
+      "raw_pf_selector_output": "<pf>binary_isolation</pf>\n<pf>request_id_trace</pf>",
+      "selected_pf_ids": [
+        "binary_isolation",
+        "request_id_trace"
+      ],
+      "retained_pf_ids": [],
+      "should_activate": {
+        "binary_isolation": true,
+        "request_id_trace": false
+      },
+      "records": [
+        {
+          "skill_id": "binary_isolation",
+          "step": 4,
+          "activated": true,
+          "intervention_type": "inject_context",
+          "reason": "separable input or deployment changes available",
+          "original_action": "INVESTIGATE",
+          "original_arg": "{\"action\": \"F\", \"reason\": \"The error happens before payment and the initial investigation pointed to a normalization error (C). Since the error is internal to the checkout logic itself, a controlled replay (F) with potential payload/auth substitutions is the best way to isolate whether the failure is due to the input data being incorrectly normalized or if a specific state/dependency interaction is causing the failure.\"}",
+          "context_text": "[binary_isolation @step] In a test reproduction, bisect the differing header set or frontend deployment changes against a known-good control. Test both halves and their combination, allowing for inter"
+        },
+        {
+          "skill_id": "request_id_trace",
+          "step": 4,
+          "activated": false,
+          "intervention_type": "noop",
+          "reason": ""
+        }
+      ],
+      "interventions": [
+        "[binary_isolation @step] In a test reproduction, bisect the differing header set or frontend deployment changes against a known-good control. Test both halves and their combination, allowing for interacting changes; retain the smallest set that reproduces the failure and verify by reintroduction."
+      ],
+      "base_model_proposed_action": "F",
+      "base_proposal_text": "{\"action\": \"F\", \"reason\": \"The error happens before payment and the initial investigation pointed to a normalization error (C). Since the error is internal to the checkout logic itself, a controlled replay (F) with potential payload/auth substitutions is the best way to isolate whether the failure is due to the input data being incorrectly normalized or if a specific state/dependency interaction is causing the failure.\"}",
+      "policy_revision_text": "{\"action\": \"B\", \"reason\": \"The previous analysis showed a potential discrepancy in how the 'amount' is passed (string vs. number) between web and mobile, and the error occurs before payment. Since the system feedback suggests isolating changes, comparing the web and mobile inputs (B) again, especially focusing on data type differences, is the most direct way to test if client-specific input formatting is the root cause, which is a key area of difference observed so far.\"}",
+      "resulting_policy_action": "B",
+      "oracle_observation": {
+        "action": "B",
+        "observation": "Matched account, cart, payment method, time and backend: both web and mobile return 500.",
+        "facts": {
+          "web_fails": true,
+          "mobile_succeeds": false,
+          "same_account": true,
+          "same_operation": true
+        },
+        "cost": 1
+      },
+      "diagnostic_cost": 1,
+      "fire_counts_before": {
+        "evidence_collection": 1,
+        "dependency_trace": 1
+      },
+      "fire_counts_after": {
+        "evidence_collection": 1,
+        "dependency_trace": 1,
+        "binary_isolation": 1
+      },
+      "calls": {
+        "policy": "call-00169",
+        "selector": "call-00170",
+        "revision": "call-00171"
+      },
+      "timestamp": "2026-09-16T02:59:20.547648+00:00",
+      "base_proposal_reused": false,
+      "selector_nonempty_unparsed": false,
+      "dispatch_action_type": "INVESTIGATE",
+      "dispatch_argument": "{\"action\": \"F\", \"reason\": \"The error happens before payment and the initial investigation pointed to a normalization error (C). Since the error is internal to the checkout logic itself, a controlled replay (F) with potential payload/auth substitutions is the best way to isolate whether the failure is due to the input data being incorrectly normalized or if a specific state/dependency interaction is causing the failure.\"}",
+      "offline": {
+        "viable_before": [
+          "H1",
+          "H3"
+        ],
+        "viable_after": [
+          "H3"
+        ],
+        "all_action_scores": [
+          {
+            "action": "A",
+            "cost": 3,
+            "remaining": [
+              "H1",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.",
+                "survivors": [
+                  "H1",
+                  "H3"
+                ],
+                "eliminated": [],
+                "probability": 1.0
+              }
+            ],
+            "expected_eliminations": 0.0,
+            "expected_eliminations_per_cost": 0.0,
+            "actual_eliminated": [],
+            "actual_eliminations_per_cost": 0.0,
+            "non_discriminating": true,
+            "repeated": true,
+            "rank": 3
+          },
+          {
+            "action": "B",
+            "cost": 1,
+            "remaining": [
+              "H1",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.",
+                "survivors": [
+                  "H1"
+                ],
+                "eliminated": [
+                  "H3"
+                ],
+                "probability": 0.5
+              },
+              {
+                "observation": "Matched account, cart, payment method, time and backend: both web and mobile return 500.",
+                "survivors": [
+                  "H3"
+                ],
+                "eliminated": [
+                  "H1"
+                ],
+                "probability": 0.5
+              }
+            ],
+            "expected_eliminations": 1.0,
+            "expected_eliminations_per_cost": 1.0,
+            "actual_eliminated": [
+              "H1"
+            ],
+            "actual_eliminations_per_cost": 1.0,
+            "non_discriminating": false,
+            "repeated": false,
+            "rank": 1
+          },
+          {
+            "action": "C",
+            "cost": 4,
+            "remaining": [
+              "H1",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.",
+                "survivors": [
+                  "H1",
+                  "H3"
+                ],
+                "eliminated": [],
+                "probability": 1.0
+              }
+            ],
+            "expected_eliminations": 0.0,
+            "expected_eliminations_per_cost": 0.0,
+            "actual_eliminated": [],
+            "actual_eliminations_per_cost": 0.0,
+            "non_discriminating": true,
+            "repeated": true,
+            "rank": 3
+          },
+          {
+            "action": "D",
+            "cost": 1,
+            "remaining": [
+              "H1",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \"1200\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.",
+                "survivors": [
+                  "H1",
+                  "H3"
+                ],
+                "eliminated": [],
+                "probability": 1.0
+              }
+            ],
+            "expected_eliminations": 0.0,
+            "expected_eliminations_per_cost": 0.0,
+            "actual_eliminated": [],
+            "actual_eliminations_per_cost": 0.0,
+            "non_discriminating": true,
+            "repeated": true,
+            "rank": 3
+          },
+          {
+            "action": "E",
+            "cost": 2,
+            "remaining": [
+              "H1",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.",
+                "survivors": [
+                  "H1",
+                  "H3"
+                ],
+                "eliminated": [],
+                "probability": 1.0
+              }
+            ],
+            "expected_eliminations": 0.0,
+            "expected_eliminations_per_cost": 0.0,
+            "actual_eliminated": [],
+            "actual_eliminations_per_cost": 0.0,
+            "non_discriminating": true,
+            "repeated": true,
+            "rank": 3
+          },
+          {
+            "action": "F",
+            "cost": 5,
+            "remaining": [
+              "H1",
+              "H3"
+            ],
+            "possible_observations": [
+              {
+                "observation": "Replay: only replacing web string amount with numeric amount restores success; reintroducing string restores 500. Auth swaps, backend rollback and payment stub do not fix the string request.",
+                "survivors": [
+                  "H1"
+                ],
+                "eliminated": [
+                  "H3"
+                ],
+                "probability": 0.5
+              },
+              {
+                "observation": "Replay: both payload representations fail on current backend and succeed on previous backend; redeploying current backend restores failure. Auth swaps and payment stub do not fix it.",
+                "survivors": [
+                  "H3"
+                ],
+                "eliminated": [
+                  "H1"
+                ],
+                "probability": 0.5
+              }
+            ],
+            "expected_eliminations": 1.0,
+            "expected_eliminations_per_cost": 0.2,
+            "actual_eliminated": [
+              "H1"
+            ],
+            "actual_eliminations_per_cost": 0.2,
+            "non_discriminating": false,
+            "repeated": false,
+            "rank": 2
+          }
+        ],
+        "chosen_score": {
+          "action": "B",
+          "cost": 1,
+          "remaining": [
+            "H1",
+            "H3"
+          ],
+          "possible_observations": [
+            {
+              "observation": "Matched account, cart, payment method, time and backend: web returns 500; mobile returns 200.",
+              "survivors": [
+                "H1"
+              ],
+              "eliminated": [
+                "H3"
+              ],
+              "probability": 0.5
+            },
+            {
+              "observation": "Matched account, cart, payment method, time and backend: both web and mobile return 500.",
+              "survivors": [
+                "H3"
+              ],
+              "eliminated": [
+                "H1"
+              ],
+              "probability": 0.5
+            }
+          ],
+          "expected_eliminations": 1.0,
+          "expected_eliminations_per_cost": 1.0,
+          "actual_eliminated": [
+            "H1"
+          ],
+          "actual_eliminations_per_cost": 1.0,
+          "non_discriminating": false,
+          "repeated": false,
+          "rank": 1
+        },
+        "hypotheses_eliminated": [
+          "H1"
+        ],
+        "expected_optimal": true,
+        "top2": true,
+        "zero_information": false,
+        "redundant_repeat": false
+      },
+      "status_after_step": "isolated",
+      "posthoc": {
+        "best_actions": [
+          "B"
+        ],
+        "base_score": 0.2,
+        "executed_score": 1.0,
+        "score_delta": 0.8,
+        "score_change": "improved",
+        "action_changed": true
+      }
+    }
+  ],
+  "model_calls": [
+    {
+      "call_id": "call-00140",
+      "episode": "H3-t3-C",
+      "role": "policy",
+      "timestamp": "2026-09-16T02:56:46.610530+00:00",
+      "request": {
+        "model": "gemma4e-64k:latest",
+        "messages": [
+          {
+            "role": "user",
+            "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+          }
+        ],
+        "stream": false,
+        "think": false,
+        "options": {
+          "temperature": 0.7,
+          "top_p": 1,
+          "top_k": 64,
+          "repeat_penalty": 1.0,
+          "num_ctx": 4096,
+          "num_thread": 8,
+          "seed": 103,
+          "num_predict": 256
+        }
+      },
+      "response": {
+        "model": "gemma4e-64k:latest",
+        "created_at": "2026-09-16T02:56:51.611213082Z",
+        "message": {
+          "role": "assistant",
+          "content": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"Since the checkout returns an HTTP 500, inspecting the backend exception and logs (C) is the most direct way to find the root cause of the server error.\"\n}\n```"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 5000094204,
+        "load_duration": 359052353,
+        "prompt_eval_count": 306,
+        "prompt_eval_duration": 1121647000,
+        "eval_count": 58,
+        "eval_duration": 3356030000
+      },
+      "wall_seconds": 5.00125942700015
+    },
+    {
+      "call_id": "call-00160",
+      "episode": "H3-t3-B",
+      "role": "selector",
+      "timestamp": "2026-09-16T02:58:38.922591+00:00",
+      "request": {
+        "model": "gemma4e-64k:latest",
+        "messages": [
+          {
+            "role": "user",
+            "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+          },
+          {
+            "role": "assistant",
+            "content": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"Since the checkout returns an HTTP 500, inspecting the backend exception and logs (C) is the most direct way to find the root cause of the server error.\"\n}\n```"
+          },
+          {
+            "role": "user",
+            "content": "You just produced a candidate answer for the problem above. Before we finalise, you may invoke any number of program-function (PF) checks on your answer. Each PF inspects a specific failure mode and either accepts your answer, rewrites it, or asks you to revise.\n\nAvailable PFs (id: summary):\n- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.\n\nSelect the PFs that are MOST RELEVANT to the problem you just solved. Output ONLY the selections, one tag per PF, in the form:\n<pf>skill_id_1</pf>\n<pf>skill_id_2</pf>\nIf no PF is needed, output nothing.\n\nYour candidate answer for review:\n```json\n{\n  \"action\": \"C\",\n  \"reason\": \"Since the checkout returns an HTTP 500, inspecting the backend exception and logs (C) is the most direct way to find the root cause of the server error.\"\n}\n```\n\nSelection:"
+          }
+        ],
+        "stream": false,
+        "think": false,
+        "options": {
+          "temperature": 0.7,
+          "top_p": 1,
+          "top_k": 64,
+          "repeat_penalty": 1.0,
+          "num_ctx": 4096,
+          "num_thread": 8,
+          "seed": 100103,
+          "num_predict": 256
+        }
+      },
+      "response": {
+        "model": "gemma4e-64k:latest",
+        "created_at": "2026-09-16T02:58:42.108407391Z",
+        "message": {
+          "role": "assistant",
+          "content": "<pf>evidence_collection</pf>"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 3185279023,
+        "load_duration": 336435602,
+        "prompt_eval_count": 681,
+        "prompt_eval_duration": 2204322000,
+        "eval_count": 10,
+        "eval_duration": 483922000
+      },
+      "wall_seconds": 3.1864781199997196
+    },
+    {
+      "call_id": "call-00161",
+      "episode": "H3-t3-B",
+      "role": "revision",
+      "timestamp": "2026-09-16T02:58:42.109746+00:00",
+      "request": {
+        "model": "gemma4e-64k:latest",
+        "messages": [
+          {
+            "role": "user",
+            "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+          },
+          {
+            "role": "assistant",
+            "content": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"Since the checkout returns an HTTP 500, inspecting the backend exception and logs (C) is the most direct way to find the root cause of the server error.\"\n}\n```"
+          },
+          {
+            "role": "user",
+            "content": "[System Feedback]\n[evidence_collection @step] Missing evidence: endpoint, request_id, request_captured. Capture the failing request with method, URL, headers, body, response, timestamp and correlation ID; redact credentials.\n\nPlease provide a revised answer. Use the same single-action JSON format."
+          }
+        ],
+        "stream": false,
+        "think": false,
+        "options": {
+          "temperature": 0.7,
+          "top_p": 1,
+          "top_k": 64,
+          "repeat_penalty": 1.0,
+          "num_ctx": 4096,
+          "num_thread": 8,
+          "seed": 200103,
+          "num_predict": 512
+        }
+      },
+      "response": {
+        "model": "gemma4e-64k:latest",
+        "created_at": "2026-09-16T02:58:47.919082549Z",
+        "message": {
+          "role": "assistant",
+          "content": "```json\n{\n  \"action\": \"A\",\n  \"reason\": \"The system feedback indicates missing evidence, specifically the request details. Action A, 'Trace request ID', is designed to inspect complete request spans and failure boundaries, which should help gather the required request context (URL, headers, body, response) necessary for diagnosis.\"\n}\n```"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 5808465477,
+        "load_duration": 335782040,
+        "prompt_eval_count": 437,
+        "prompt_eval_duration": 1487868000,
+        "eval_count": 75,
+        "eval_duration": 3979126000
+      },
+      "wall_seconds": 5.80985519900014
+    },
+    {
+      "call_id": "call-00162",
+      "episode": "H3-t3-B",
+      "role": "policy",
+      "timestamp": "2026-09-16T02:58:47.921014+00:00",
+      "request": {
+        "model": "gemma4e-64k:latest",
+        "messages": [
+          {
+            "role": "user",
+            "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+          }
+        ],
+        "stream": false,
+        "think": false,
+        "options": {
+          "temperature": 0.7,
+          "top_p": 1,
+          "top_k": 64,
+          "repeat_penalty": 1.0,
+          "num_ctx": 4096,
+          "num_thread": 8,
+          "seed": 1103,
+          "num_predict": 256
+        }
+      },
+      "response": {
+        "model": "gemma4e-64k:latest",
+        "created_at": "2026-09-16T02:58:53.95876547Z",
+        "message": {
+          "role": "assistant",
+          "content": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"The previous action ('A') indicated a 500 error occurred within the checkout process before the payment call, but it lacked finer exception detail. Inspecting the backend exception/logs ('C') is the most direct next step to find the root cause of the 500 error.\"\n}\n```"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 6036901171,
+        "load_duration": 328503707,
+        "prompt_eval_count": 360,
+        "prompt_eval_duration": 1049874000,
+        "eval_count": 82,
+        "eval_duration": 4422941000
+      },
+      "wall_seconds": 6.03828129700014
+    },
+    {
+      "call_id": "call-00163",
+      "episode": "H3-t3-B",
+      "role": "selector",
+      "timestamp": "2026-09-16T02:58:53.959959+00:00",
+      "request": {
+        "model": "gemma4e-64k:latest",
+        "messages": [
+          {
+            "role": "user",
+            "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+          },
+          {
+            "role": "assistant",
+            "content": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"The previous action ('A') indicated a 500 error occurred within the checkout process before the payment call, but it lacked finer exception detail. Inspecting the backend exception/logs ('C') is the most direct next step to find the root cause of the 500 error.\"\n}\n```"
+          },
+          {
+            "role": "user",
+            "content": "You just produced a candidate answer for the problem above. Before we finalise, you may invoke any number of program-function (PF) checks on your answer. Each PF inspects a specific failure mode and either accepts your answer, rewrites it, or asks you to revise.\n\nAvailable PFs (id: summary):\n- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.\n\nSelect the PFs that are MOST RELEVANT to the problem you just solved. Output ONLY the selections, one tag per PF, in the form:\n<pf>skill_id_1</pf>\n<pf>skill_id_2</pf>\nIf no PF is needed, output nothing.\n\nYour candidate answer for review:\n```json\n{\n  \"action\": \"C\",\n  \"reason\": \"The previous action ('A') indicated a 500 error occurred within the checkout process before the payment call, but it lacked finer exception detail. Inspecting the backend exception/logs ('C') is the most direct next step to find the root cause of the 500 error.\"\n}\n```\n\nSelection:"
+          }
+        ],
+        "stream": false,
+        "think": false,
+        "options": {
+          "temperature": 0.7,
+          "top_p": 1,
+          "top_k": 64,
+          "repeat_penalty": 1.0,
+          "num_ctx": 4096,
+          "num_thread": 8,
+          "seed": 101103,
+          "num_predict": 256
+        }
+      },
+      "response": {
+        "model": "gemma4e-64k:latest",
+        "created_at": "2026-09-16T02:58:57.3332072Z",
+        "message": {
+          "role": "assistant",
+          "content": "<pf>dependency_trace</pf>"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 3372322186,
+        "load_duration": 335501349,
+        "prompt_eval_count": 783,
+        "prompt_eval_duration": 2547856000,
+        "eval_count": 10,
+        "eval_duration": 482356000
+      },
+      "wall_seconds": 3.373743778000062
+    },
+    {
+      "call_id": "call-00164",
+      "episode": "H3-t3-B",
+      "role": "revision",
+      "timestamp": "2026-09-16T02:58:57.335338+00:00",
+      "request": {
+        "model": "gemma4e-64k:latest",
+        "messages": [
+          {
+            "role": "user",
+            "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+          },
+          {
+            "role": "assistant",
+            "content": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"The previous action ('A') indicated a 500 error occurred within the checkout process before the payment call, but it lacked finer exception detail. Inspecting the backend exception/logs ('C') is the most direct next step to find the root cause of the 500 error.\"\n}\n```"
+          },
+          {
+            "role": "user",
+            "content": "[System Feedback]\n[dependency_trace @step] Inspect checkout calls to cart, inventory and payment services. Check per-request status, latency, routing and input propagation; a successful mobile checkout or unchanged backend version does not exclude a dependency failure caused by different web inputs.\n\nPlease provide a revised answer. Use the same single-action JSON format."
+          }
+        ],
+        "stream": false,
+        "think": false,
+        "options": {
+          "temperature": 0.7,
+          "top_p": 1,
+          "top_k": 64,
+          "repeat_penalty": 1.0,
+          "num_ctx": 4096,
+          "num_thread": 8,
+          "seed": 201103,
+          "num_predict": 512
+        }
+      },
+      "response": {
+        "model": "gemma4e-64k:latest",
+        "created_at": "2026-09-16T02:59:03.145304502Z",
+        "message": {
+          "role": "assistant",
+          "content": "```json\n{\n  \"action\": \"E\",\n  \"reason\": \"The system feedback suggests checking dependency failures across multiple services (cart, inventory, payment). Action 'E' ('Check payment/dependency health') is designed to check dependency probes and downstream outcomes, which directly aligns with investigating potential failures in the services called during checkout.\"\n}\n```"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 5808985706,
+        "load_duration": 331778176,
+        "prompt_eval_count": 523,
+        "prompt_eval_duration": 1501851000,
+        "eval_count": 75,
+        "eval_duration": 3969166000
+      },
+      "wall_seconds": 5.810564050999801
+    },
+    {
+      "call_id": "call-00165",
+      "episode": "H3-t3-B",
+      "role": "policy",
+      "timestamp": "2026-09-16T02:59:03.147368+00:00",
+      "request": {
+        "model": "gemma4e-64k:latest",
+        "messages": [
+          {
+            "role": "user",
+            "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+          }
+        ],
+        "stream": false,
+        "think": false,
+        "options": {
+          "temperature": 0.7,
+          "top_p": 1,
+          "top_k": 64,
+          "repeat_penalty": 1.0,
+          "num_ctx": 4096,
+          "num_thread": 8,
+          "seed": 2103,
+          "num_predict": 256
+        }
+      },
+      "response": {
+        "model": "gemma4e-64k:latest",
+        "created_at": "2026-09-16T02:59:07.861093512Z",
+        "message": {
+          "role": "assistant",
+          "content": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"Action A indicated the trace lacks fine exception detail. Action C is necessary to read the full exception and correlated application log for the 500 error observed in the checkout step.\"\n}\n```"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 4712825320,
+        "load_duration": 330856441,
+        "prompt_eval_count": 401,
+        "prompt_eval_duration": 1117663000,
+        "eval_count": 59,
+        "eval_duration": 3086420000
+      },
+      "wall_seconds": 4.714321753000149
+    },
+    {
+      "call_id": "call-00166",
+      "episode": "H3-t3-B",
+      "role": "selector",
+      "timestamp": "2026-09-16T02:59:07.862307+00:00",
+      "request": {
+        "model": "gemma4e-64k:latest",
+        "messages": [
+          {
+            "role": "user",
+            "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+          },
+          {
+            "role": "assistant",
+            "content": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"Action A indicated the trace lacks fine exception detail. Action C is necessary to read the full exception and correlated application log for the 500 error observed in the checkout step.\"\n}\n```"
+          },
+          {
+            "role": "user",
+            "content": "You just produced a candidate answer for the problem above. Before we finalise, you may invoke any number of program-function (PF) checks on your answer. Each PF inspects a specific failure mode and either accepts your answer, rewrites it, or asks you to revise.\n\nAvailable PFs (id: summary):\n- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.\n\nSelect the PFs that are MOST RELEVANT to the problem you just solved. Output ONLY the selections, one tag per PF, in the form:\n<pf>skill_id_1</pf>\n<pf>skill_id_2</pf>\nIf no PF is needed, output nothing.\n\nYour candidate answer for review:\n```json\n{\n  \"action\": \"C\",\n  \"reason\": \"Action A indicated the trace lacks fine exception detail. Action C is necessary to read the full exception and correlated application log for the 500 error observed in the checkout step.\"\n}\n```\n\nSelection:"
+          }
+        ],
+        "stream": false,
+        "think": false,
+        "options": {
+          "temperature": 0.7,
+          "top_p": 1,
+          "top_k": 64,
+          "repeat_penalty": 1.0,
+          "num_ctx": 4096,
+          "num_thread": 8,
+          "seed": 102103,
+          "num_predict": 256
+        }
+      },
+      "response": {
+        "model": "gemma4e-64k:latest",
+        "created_at": "2026-09-16T02:59:11.413352169Z",
+        "message": {
+          "role": "assistant",
+          "content": "<pf>evidence_collection</pf>"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 3550024127,
+        "load_duration": 332123705,
+        "prompt_eval_count": 778,
+        "prompt_eval_duration": 2680049000,
+        "eval_count": 10,
+        "eval_duration": 531635999
+      },
+      "wall_seconds": 3.5515418890004185
+    },
+    {
+      "call_id": "call-00167",
+      "episode": "H3-t3-B",
+      "role": "policy",
+      "timestamp": "2026-09-16T02:59:11.415701+00:00",
+      "request": {
+        "model": "gemma4e-64k:latest",
+        "messages": [
+          {
+            "role": "user",
+            "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}, {\"action\": \"C\", \"cost\": 4, \"observation\": \"abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+          }
+        ],
+        "stream": false,
+        "think": false,
+        "options": {
+          "temperature": 0.7,
+          "top_p": 1,
+          "top_k": 64,
+          "repeat_penalty": 1.0,
+          "num_ctx": 4096,
+          "num_thread": 8,
+          "seed": 3103,
+          "num_predict": 256
+        }
+      },
+      "response": {
+        "model": "gemma4e-64k:latest",
+        "created_at": "2026-09-16T02:59:17.611550111Z",
+        "message": {
+          "role": "assistant",
+          "content": "```json\n{\n  \"action\": \"D\",\n  \"reason\": \"The previous steps identified a specific error path (CheckoutNormalizationError) but couldn't pinpoint the exact input causing it. Comparing request headers and payloads between clients (D) might reveal if the client sending the failing request is sending unexpected or malformed data that triggers the normalization error.\"\n}\n```"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 6194967302,
+        "load_duration": 332716477,
+        "prompt_eval_count": 454,
+        "prompt_eval_duration": 1496416000,
+        "eval_count": 79,
+        "eval_duration": 4167698999
+      },
+      "wall_seconds": 6.196399475999897
+    },
+    {
+      "call_id": "call-00168",
+      "episode": "H3-t3-B",
+      "role": "selector",
+      "timestamp": "2026-09-16T02:59:17.612766+00:00",
+      "request": {
+        "model": "gemma4e-64k:latest",
+        "messages": [
+          {
+            "role": "user",
+            "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}, {\"action\": \"C\", \"cost\": 4, \"observation\": \"abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+          },
+          {
+            "role": "assistant",
+            "content": "```json\n{\n  \"action\": \"D\",\n  \"reason\": \"The previous steps identified a specific error path (CheckoutNormalizationError) but couldn't pinpoint the exact input causing it. Comparing request headers and payloads between clients (D) might reveal if the client sending the failing request is sending unexpected or malformed data that triggers the normalization error.\"\n}\n```"
+          },
+          {
+            "role": "user",
+            "content": "You just produced a candidate answer for the problem above. Before we finalise, you may invoke any number of program-function (PF) checks on your answer. Each PF inspects a specific failure mode and either accepts your answer, rewrites it, or asks you to revise.\n\nAvailable PFs (id: summary):\n- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.\n\nSelect the PFs that are MOST RELEVANT to the problem you just solved. Output ONLY the selections, one tag per PF, in the form:\n<pf>skill_id_1</pf>\n<pf>skill_id_2</pf>\nIf no PF is needed, output nothing.\n\nYour candidate answer for review:\n```json\n{\n  \"action\": \"D\",\n  \"reason\": \"The previous steps identified a specific error path (CheckoutNormalizationError) but couldn't pinpoint the exact input causing it. Comparing request headers and payloads between clients (D) might reveal if the client sending the failing request is sending unexpected or malformed data that triggers the normalization error.\"\n}\n```\n\nSelection:"
+          }
+        ],
+        "stream": false,
+        "think": false,
+        "options": {
+          "temperature": 0.7,
+          "top_p": 1,
+          "top_k": 64,
+          "repeat_penalty": 1.0,
+          "num_ctx": 4096,
+          "num_thread": 8,
+          "seed": 103103,
+          "num_predict": 256
+        }
+      },
+      "response": {
+        "model": "gemma4e-64k:latest",
+        "created_at": "2026-09-16T02:59:20.545741533Z",
+        "message": {
+          "role": "assistant",
+          "content": "<pf>comparison_experiment</pf>\n<pf>evidence_collection</pf>"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 2932006183,
+        "load_duration": 339809169,
+        "prompt_eval_count": 871,
+        "prompt_eval_duration": 1547462000,
+        "eval_count": 20,
+        "eval_duration": 1036683000
+      },
+      "wall_seconds": 2.933451550999962
+    },
+    {
+      "call_id": "call-00169",
+      "episode": "H3-t3-B",
+      "role": "policy",
+      "timestamp": "2026-09-16T02:59:20.547747+00:00",
+      "request": {
+        "model": "gemma4e-64k:latest",
+        "messages": [
+          {
+            "role": "user",
+            "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}, {\"action\": \"C\", \"cost\": 4, \"observation\": \"abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.\"}, {\"action\": \"D\", \"cost\": 1, \"observation\": \"Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \\\"1200\\\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+          }
+        ],
+        "stream": false,
+        "think": false,
+        "options": {
+          "temperature": 0.7,
+          "top_p": 1,
+          "top_k": 64,
+          "repeat_penalty": 1.0,
+          "num_ctx": 4096,
+          "num_thread": 8,
+          "seed": 4103,
+          "num_predict": 256
+        }
+      },
+      "response": {
+        "model": "gemma4e-64k:latest",
+        "created_at": "2026-09-16T02:59:27.514405143Z",
+        "message": {
+          "role": "assistant",
+          "content": "{\"action\": \"F\", \"reason\": \"The error happens before payment and the initial investigation pointed to a normalization error (C). Since the error is internal to the checkout logic itself, a controlled replay (F) with potential payload/auth substitutions is the best way to isolate whether the failure is due to the input data being incorrectly normalized or if a specific state/dependency interaction is causing the failure.\"}"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 6965731728,
+        "load_duration": 333643282,
+        "prompt_eval_count": 560,
+        "prompt_eval_duration": 2007225000,
+        "eval_count": 83,
+        "eval_duration": 4430083000
+      },
+      "wall_seconds": 6.967321515000094
+    },
+    {
+      "call_id": "call-00170",
+      "episode": "H3-t3-B",
+      "role": "selector",
+      "timestamp": "2026-09-16T02:59:27.515820+00:00",
+      "request": {
+        "model": "gemma4e-64k:latest",
+        "messages": [
+          {
+            "role": "user",
+            "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}, {\"action\": \"C\", \"cost\": 4, \"observation\": \"abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.\"}, {\"action\": \"D\", \"cost\": 1, \"observation\": \"Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \\\"1200\\\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+          },
+          {
+            "role": "assistant",
+            "content": "{\"action\": \"F\", \"reason\": \"The error happens before payment and the initial investigation pointed to a normalization error (C). Since the error is internal to the checkout logic itself, a controlled replay (F) with potential payload/auth substitutions is the best way to isolate whether the failure is due to the input data being incorrectly normalized or if a specific state/dependency interaction is causing the failure.\"}"
+          },
+          {
+            "role": "user",
+            "content": "You just produced a candidate answer for the problem above. Before we finalise, you may invoke any number of program-function (PF) checks on your answer. Each PF inspects a specific failure mode and either accepts your answer, rewrites it, or asks you to revise.\n\nAvailable PFs (id: summary):\n- binary_isolation: Bisect differing request headers or frontend changes between failing and successful checkout reproductions.\n- comparison_experiment: Compare failing web and successful mobile checkout requests for the same account and operation.\n- dependency_trace: Inspect checkout downstream calls for input-specific failures while dependency behavior is unverified.\n- evidence_collection: Collect missing endpoint, request ID, and request capture for a checkout failure.\n- request_id_trace: Trace a failing checkout request ID through correlated logs when that trace remains unexplored.\n\nSelect the PFs that are MOST RELEVANT to the problem you just solved. Output ONLY the selections, one tag per PF, in the form:\n<pf>skill_id_1</pf>\n<pf>skill_id_2</pf>\nIf no PF is needed, output nothing.\n\nYour candidate answer for review:\n{\"action\": \"F\", \"reason\": \"The error happens before payment and the initial investigation pointed to a normalization error (C). Since the error is internal to the checkout logic itself, a controlled replay (F) with potential payload/auth substitutions is the best way to isolate whether the failure is due to the input data being incorrectly normalized or if a specific state/dependency interaction is causing the failure.\"}\n\nSelection:"
+          }
+        ],
+        "stream": false,
+        "think": false,
+        "options": {
+          "temperature": 0.7,
+          "top_p": 1,
+          "top_k": 64,
+          "repeat_penalty": 1.0,
+          "num_ctx": 4096,
+          "num_thread": 8,
+          "seed": 104103,
+          "num_predict": 256
+        }
+      },
+      "response": {
+        "model": "gemma4e-64k:latest",
+        "created_at": "2026-09-16T02:59:30.588720754Z",
+        "message": {
+          "role": "assistant",
+          "content": "<pf>binary_isolation</pf>\n<pf>request_id_trace</pf>"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 3071908046,
+        "load_duration": 332998751,
+        "prompt_eval_count": 985,
+        "prompt_eval_duration": 1569244000,
+        "eval_count": 22,
+        "eval_duration": 1155202000
+      },
+      "wall_seconds": 3.073455995999666
+    },
+    {
+      "call_id": "call-00171",
+      "episode": "H3-t3-B",
+      "role": "revision",
+      "timestamp": "2026-09-16T02:59:30.590167+00:00",
+      "request": {
+        "model": "gemma4e-64k:latest",
+        "messages": [
+          {
+            "role": "user",
+            "content": "{\"available_actions\": {\"A\": {\"cost\": 3, \"name\": \"Trace request ID\", \"scope\": \"Collect correlation ID if absent; inspect complete request spans and failure boundary.\"}, \"B\": {\"cost\": 1, \"name\": \"Compare web versus mobile\", \"scope\": \"Matched account, cart, payment, time and backend; reproduce on both clients.\"}, \"C\": {\"cost\": 4, \"name\": \"Inspect backend exception/logs\", \"scope\": \"Read the full exception and correlated application log for this checkout.\"}, \"D\": {\"cost\": 1, \"name\": \"Compare request headers and payload\", \"scope\": \"Capture both clients; compare credentials, content types and bodies; no causal replay.\"}, \"E\": {\"cost\": 2, \"name\": \"Check payment/dependency health\", \"scope\": \"Check incident-window dependency probes AND this request\\u2019s downstream outcomes.\"}, \"F\": {\"cost\": 5, \"name\": \"Controlled isolation replay suite\", \"scope\": \"Sandbox payload/auth substitutions, current/previous backend and dependency stub; verify by reintroduction.\"}}, \"observed_history\": [{\"action\": \"A\", \"cost\": 3, \"observation\": \"abc123: POST /api/checkout returns 500 inside checkout before a payment call. The complete trace has no finer exception detail; no uninspected spans remain.\"}, {\"action\": \"E\", \"cost\": 2, \"observation\": \"Incident-window cart, inventory and payment probes succeed. The failed checkout has no failed downstream calls; payment was not invoked.\"}, {\"action\": \"C\", \"cost\": 4, \"observation\": \"abc123 exception: CheckoutNormalizationError at normalize_amount, before dependency invocation. The log omits the argument and does not distinguish a bad input from a normalizer regression.\"}, {\"action\": \"D\", \"cost\": 1, \"observation\": \"Captures for POST /api/checkout (web request-id abc123): credentials and checkout scope match. Web Content-Type application/json;charset=utf-8, X-Checkout-Version web-42, amount \\\"1200\\\" (string); mobile application/json, mobile-17, amount 1200 (number). No replay or client success result has been obtained by this check.\"}], \"problem\": \"Checkout returns HTTP 500. No root cause is known.\"}\nChoose the next diagnostic check. Return exactly one JSON object with keys action (one of A,B,C,D,E,F) and reason (brief text)."
+          },
+          {
+            "role": "assistant",
+            "content": "{\"action\": \"F\", \"reason\": \"The error happens before payment and the initial investigation pointed to a normalization error (C). Since the error is internal to the checkout logic itself, a controlled replay (F) with potential payload/auth substitutions is the best way to isolate whether the failure is due to the input data being incorrectly normalized or if a specific state/dependency interaction is causing the failure.\"}"
+          },
+          {
+            "role": "user",
+            "content": "[System Feedback]\n[binary_isolation @step] In a test reproduction, bisect the differing header set or frontend deployment changes against a known-good control. Test both halves and their combination, allowing for interacting changes; retain the smallest set that reproduces the failure and verify by reintroduction.\n\nPlease provide a revised answer. Use the same single-action JSON format."
+          }
+        ],
+        "stream": false,
+        "think": false,
+        "options": {
+          "temperature": 0.7,
+          "top_p": 1,
+          "top_k": 64,
+          "repeat_penalty": 1.0,
+          "num_ctx": 4096,
+          "num_thread": 8,
+          "seed": 204103,
+          "num_predict": 512
+        }
+      },
+      "response": {
+        "model": "gemma4e-64k:latest",
+        "created_at": "2026-09-16T02:59:36.871647843Z",
+        "message": {
+          "role": "assistant",
+          "content": "{\"action\": \"B\", \"reason\": \"The previous analysis showed a potential discrepancy in how the 'amount' is passed (string vs. number) between web and mobile, and the error occurs before payment. Since the system feedback suggests isolating changes, comparing the web and mobile inputs (B) again, especially focusing on data type differences, is the most direct way to test if client-specific input formatting is the root cause, which is a key area of difference observed so far.\"}"
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 6280440226,
+        "load_duration": 348136592,
+        "prompt_eval_count": 728,
+        "prompt_eval_duration": 582096000,
+        "eval_count": 100,
+        "eval_duration": 5344070000
+      },
+      "wall_seconds": 6.28218116700009
+    }
+  ]
+}

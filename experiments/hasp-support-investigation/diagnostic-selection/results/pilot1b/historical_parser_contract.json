@@ -1,0 +1,47 @@
+[
+  {
+    "historical_call_id": "call-00001",
+    "raw_text": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"Since the checkout returns a generic HTTP 500, inspecting the backend exception and correlated application logs is the most direct way to find the root cause.\"\n}\n```",
+    "normalized_text": "{\n  \"action\": \"C\",\n  \"reason\": \"Since the checkout returns a generic HTTP 500, inspecting the backend exception and correlated application logs is the most direct way to find the root cause.\"\n}",
+    "parsed_action": "C",
+    "validation_result": "valid",
+    "historical_action_executed": false,
+    "historical_action_rescored": false
+  },
+  {
+    "historical_call_id": "call-00002",
+    "raw_text": "```json\n{\n  \"action\": \"A\",\n  \"reason\": \"The initial step for an unknown HTTP 500 error is to gather comprehensive context by tracing the request ID to inspect all relevant spans and the failure boundary.\"\n}\n```",
+    "normalized_text": "{\n  \"action\": \"A\",\n  \"reason\": \"The initial step for an unknown HTTP 500 error is to gather comprehensive context by tracing the request ID to inspect all relevant spans and the failure boundary.\"\n}",
+    "parsed_action": "A",
+    "validation_result": "valid",
+    "historical_action_executed": false,
+    "historical_action_rescored": false
+  },
+  {
+    "historical_call_id": "call-00003",
+    "raw_text": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"Since the checkout returns an HTTP 500, inspecting the backend exception and logs (C) is the most direct way to find the root cause of the server error.\"\n}\n```",
+    "normalized_text": "{\n  \"action\": \"C\",\n  \"reason\": \"Since the checkout returns an HTTP 500, inspecting the backend exception and logs (C) is the most direct way to find the root cause of the server error.\"\n}",
+    "parsed_action": "C",
+    "validation_result": "valid",
+    "historical_action_executed": false,
+    "historical_action_rescored": false
+  },
+  {
+    "historical_call_id": "call-00004",
+    "raw_text": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"Since the checkout returns a generic HTTP 500 error, the most direct next step is to inspect the backend exception/logs to find the root cause.\"\n}\n```",
+    "normalized_text": "{\n  \"action\": \"C\",\n  \"reason\": \"Since the checkout returns a generic HTTP 500 error, the most direct next step is to inspect the backend exception/logs to find the root cause.\"\n}",
+    "parsed_action": "C",
+    "validation_result": "valid",
+    "historical_action_executed": false,
+    "historical_action_rescored": false
+  },
+  {
+    "historical_call_id": "call-00005",
+    "raw_text": "```json\n{\n  \"action\": \"C\",\n  \"reason\": \"Since the checkout returns a generic HTTP 500 error with no known root cause, the most immediate and crucial step is to inspect the backend exception and logs to find the specific error message or stack trace.\"\n}\n```",
+    "normalized_text": "{\n  \"action\": \"C\",\n  \"reason\": \"Since the checkout returns a generic HTTP 500 error with no known root cause, the most immediate and crucial step is to inspect the backend exception and logs to find the specific error message or stack trace.\"\n}",
+    "parsed_action": "C",
+    "validation_result": "valid",
+    "historical_action_executed": false,
+    "historical_action_rescored": false
+  }
+]

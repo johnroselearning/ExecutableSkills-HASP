@@ -1,0 +1,37 @@
+{
+  "status": "CHECKPOINT_ONLY_NO_MODEL_RUNS",
+  "ground_truth_host_only": "H1",
+  "model_trials": 0,
+  "inference_calls": 0,
+  "native_pf_changes": 0,
+  "files_sha256": {
+    "experiments/hasp-support-investigation/diagnostic-selection/actions.py": "a52974de6629b71335b92e21bcccd9f1462f54d46d36d26ad425541a7646654f",
+    "experiments/hasp-support-investigation/diagnostic-selection/evaluator.py": "d307ccf0f3831dfcb1bc7f5804ed7aa79fa89220de95f19155aecf347756af07",
+    "experiments/hasp-support-investigation/diagnostic-selection/hypotheses.py": "16eff57b5cd5d02f34c7235cb58eba991c158255a8991118e6bbeb8f57431bdc",
+    "experiments/hasp-support-investigation/diagnostic-selection/native_adapter.py": "35e029cef0bd42e9e4767060e7ec0f9606cdbcd59b57f74bab9fe5e110c72df8",
+    "experiments/hasp-support-investigation/diagnostic-selection/oracle.py": "04100268d3c2ffbb3becb3e86be94a6fd6711bf640dafd189e8deea38af579d5",
+    "experiments/hasp-support-investigation/diagnostic-selection/runner.py": "a3165a36a62b4cb85510441f6a3ca6d83f5f7be17b98f413fdda18de4d9c05da",
+    "experiments/hasp-support-investigation/diagnostic-selection/test_diagnostic.py": "ea76c8af4042ba31aeaae65f549aed6e92a1e2b836edad49d6501a72d713b29f",
+    "pf_select/pf_select_eval.py": "6a788652d856401503e5a268ca2077fc1e73e842c3c8f3f95d72ca748072e94a",
+    "skills/executable/docs/support/binary_isolation/SKILL.md": "d77ea91bbcb897cbd3a767c320e0bc54cd37255d9dc3834638b3558c014b407b",
+    "skills/executable/docs/support/comparison_experiment/SKILL.md": "ffffc176e09e25eebd86c089ac6b907fb1168a06a012ab3506124c6623c33484",
+    "skills/executable/docs/support/dependency_trace/SKILL.md": "2949bbf9c4a3e49ba688d34bcc8455bac15a742071aec55655db42f69a75a6b5",
+    "skills/executable/docs/support/evidence_collection/SKILL.md": "499b5dca1a2817e93843041de2545cbff8243610d873e9a29382a89cf5512a2d",
+    "skills/executable/docs/support/request_id_trace/SKILL.md": "253b330aa70f278871b68dd3b8f3361c9dd5a6ea61876a6a208caf4f71e8ef32",
+    "skills/executable/support/skills.py": "8301996c8dc8fe0a660dff304a615f48efdec636b86b09b8927f5a85e6733087",
+    "skills/pf_template.py": "ac55af03765a9fd4045e2bab9594ef9f24418661b0e71c25b57b9510e648d99a",
+    "src/skills_agent/skills/program_functions.py": "724499c48d33577ab496c63ade652baa9804821bda4bb3577edaee5fedd5e541"
+  },
+  "planned": {
+    "model": "unselected",
+    "temperature": 0.7,
+    "seed_base": 101,
+    "trials_per_cell": 30,
+    "pilot_trials_per_cell": 10,
+    "max_steps": 8,
+    "orders": [
+      "canonical",
+      "reverse"
+    ]
+  }
+}

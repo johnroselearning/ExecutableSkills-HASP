@@ -1,0 +1,252 @@
+{
+  "created_utc": "2026-09-16T08:16:03.661379+00:00",
+  "purpose": "Interpretation-only bundle coverage; not a best-PF oracle, selection target, or success score.",
+  "question": "Does at least one eligible PF intervention explicitly provide guidance that could naturally lead to one of the offline-best diagnostic actions?",
+  "rubric": {
+    "CLEAR_SUPPORT": "Direct guidance names the best action activity or its defining evidence collection operation.",
+    "AMBIGUOUS_SUPPORT": "Guidance could motivate a prerequisite/control leading to the best action, but does not specify that action; inferential bridge required.",
+    "NO_CLEAR_SUPPORT": "No explicit best-action activity or natural control-baseline guidance; only a generic possibility that reasoning might reach it."
+  },
+  "rows": [
+    {
+      "snapshot": "S01",
+      "eligible_pf_ids": [
+        "evidence_collection",
+        "dependency_trace"
+      ],
+      "fire_counts_before": {
+        "evidence_collection": 0,
+        "request_id_trace": 0,
+        "comparison_experiment": 0,
+        "dependency_trace": 0,
+        "binary_isolation": 0
+      },
+      "exact_interventions": {
+        "evidence_collection": "[evidence_collection @step] Missing evidence: request_captured. Capture the failing request with method, URL, headers, body, response, timestamp and correlation ID; redact credentials.",
+        "dependency_trace": "[dependency_trace @step] Inspect checkout calls to cart, inventory and payment services. Check per-request status, latency, routing and input propagation; a successful mobile checkout or unchanged backend version does not exclude a dependency failure caused by different web inputs."
+      },
+      "offline_best_diagnostic_actions": [
+        "B",
+        "D"
+      ],
+      "classification": "CLEAR_SUPPORT",
+      "reason": "The missing-evidence intervention explicitly asks to capture request headers and body, which naturally supports D. No claim is made that it specifically endorses both tied best actions B and D."
+    },
+    {
+      "snapshot": "S02",
+      "eligible_pf_ids": [
+        "evidence_collection",
+        "comparison_experiment"
+      ],
+      "fire_counts_before": {
+        "evidence_collection": 0,
+        "request_id_trace": 0,
+        "comparison_experiment": 0,
+        "dependency_trace": 0,
+        "binary_isolation": 0
+      },
+      "exact_interventions": {
+        "evidence_collection": "[evidence_collection @step] Missing evidence: endpoint, request_id, request_captured. Capture the failing request with method, URL, headers, body, response, timestamp and correlation ID; redact credentials.",
+        "comparison_experiment": "[comparison_experiment @step] Compare the failing web request with a successful mobile request for the same account and operation. Hold account, cart, timing and backend constant; compare headers and payloads, then replay one changed factor at a time in a test environment to check whether the failure follows it."
+      },
+      "offline_best_diagnostic_actions": [
+        "D"
+      ],
+      "classification": "CLEAR_SUPPORT",
+      "reason": "The bundle explicitly asks to compare failing web and successful mobile request headers and payloads, naturally supporting D."
+    },
+    {
+      "snapshot": "S03",
+      "eligible_pf_ids": [
+        "evidence_collection",
+        "request_id_trace",
+        "dependency_trace"
+      ],
+      "fire_counts_before": {
+        "evidence_collection": 0,
+        "request_id_trace": 0,
+        "comparison_experiment": 0,
+        "dependency_trace": 0,
+        "binary_isolation": 0
+      },
+      "exact_interventions": {
+        "evidence_collection": "[evidence_collection @step] Missing evidence: request_captured. Capture the failing request with method, URL, headers, body, response, timestamp and correlation ID; redact credentials.",
+        "request_id_trace": "[request_id_trace @step] Trace request abc123 for /api/checkout through gateway and application logs. Locate the first failing span and its error details; correlate by request ID and timestamp.",
+        "dependency_trace": "[dependency_trace @step] Inspect checkout calls to cart, inventory and payment services. Check per-request status, latency, routing and input propagation; a successful mobile checkout or unchanged backend version does not exclude a dependency failure caused by different web inputs."
+      },
+      "offline_best_diagnostic_actions": [
+        "B"
+      ],
+      "classification": "NO_CLEAR_SUPPORT",
+      "reason": "The bundle asks for request capture, correlated tracing and dependency inspection. None explicitly asks to reproduce on both matched clients, the best action B; capture alone is not that experiment."
+    },
+    {
+      "snapshot": "S04",
+      "eligible_pf_ids": [
+        "request_id_trace",
+        "dependency_trace",
+        "binary_isolation"
+      ],
+      "fire_counts_before": {
+        "evidence_collection": 0,
+        "request_id_trace": 0,
+        "comparison_experiment": 0,
+        "dependency_trace": 0,
+        "binary_isolation": 0
+      },
+      "exact_interventions": {
+        "request_id_trace": "[request_id_trace @step] Trace request abc123 for /api/checkout through gateway and application logs. Locate the first failing span and its error details; correlate by request ID and timestamp.",
+        "dependency_trace": "[dependency_trace @step] Inspect checkout calls to cart, inventory and payment services. Check per-request status, latency, routing and input propagation; a successful mobile checkout or unchanged backend version does not exclude a dependency failure caused by different web inputs.",
+        "binary_isolation": "[binary_isolation @step] In a test reproduction, bisect the differing header set or frontend deployment changes against a known-good control. Test both halves and their combination, allowing for interacting changes; retain the smallest set that reproduces the failure and verify by reintroduction."
+      },
+      "offline_best_diagnostic_actions": [
+        "B"
+      ],
+      "classification": "AMBIGUOUS_SUPPORT",
+      "reason": "Isolation asks for a test reproduction against a known-good control. Establishing a matched mobile control could lead to B, but the intervention does not name that client comparison and instead prescribes bisection. Dependency text mentions mobile success only as a caveat, not an instruction to run B."
+    },
+    {
+      "snapshot": "S05",
+      "eligible_pf_ids": [
+        "evidence_collection",
+        "request_id_trace"
+      ],
+      "fire_counts_before": {
+        "evidence_collection": 0,
+        "request_id_trace": 0,
+        "comparison_experiment": 0,
+        "dependency_trace": 0,
+        "binary_isolation": 0
+      },
+      "exact_interventions": {
+        "evidence_collection": "[evidence_collection @step] Missing evidence: request_captured. Capture the failing request with method, URL, headers, body, response, timestamp and correlation ID; redact credentials.",
+        "request_id_trace": "[request_id_trace @step] Trace request abc123 for /api/checkout through gateway and application logs. Locate the first failing span and its error details; correlate by request ID and timestamp."
+      },
+      "offline_best_diagnostic_actions": [
+        "B",
+        "D"
+      ],
+      "classification": "CLEAR_SUPPORT",
+      "reason": "The missing-evidence intervention explicitly asks for request headers and body capture, naturally supporting tied-best D. The trace guidance does not itself establish best-action support."
+    },
+    {
+      "snapshot": "S06",
+      "eligible_pf_ids": [
+        "evidence_collection",
+        "comparison_experiment",
+        "dependency_trace"
+      ],
+      "fire_counts_before": {
+        "evidence_collection": 0,
+        "request_id_trace": 0,
+        "comparison_experiment": 0,
+        "dependency_trace": 0,
+        "binary_isolation": 0
+      },
+      "exact_interventions": {
+        "evidence_collection": "[evidence_collection @step] Missing evidence: request_captured. Capture the failing request with method, URL, headers, body, response, timestamp and correlation ID; redact credentials.",
+        "comparison_experiment": "[comparison_experiment @step] Compare the failing web request with a successful mobile request for the same account and operation. Hold account, cart, timing and backend constant; compare headers and payloads, then replay one changed factor at a time in a test environment to check whether the failure follows it.",
+        "dependency_trace": "[dependency_trace @step] Inspect checkout calls to cart, inventory and payment services. Check per-request status, latency, routing and input propagation; a successful mobile checkout or unchanged backend version does not exclude a dependency failure caused by different web inputs."
+      },
+      "offline_best_diagnostic_actions": [
+        "D"
+      ],
+      "classification": "CLEAR_SUPPORT",
+      "reason": "The comparison intervention explicitly asks to compare matched failing web and successful mobile headers and payloads, naturally supporting D."
+    },
+    {
+      "snapshot": "S07",
+      "eligible_pf_ids": [
+        "dependency_trace",
+        "binary_isolation"
+      ],
+      "fire_counts_before": {
+        "evidence_collection": 0,
+        "request_id_trace": 0,
+        "comparison_experiment": 0,
+        "dependency_trace": 0,
+        "binary_isolation": 0
+      },
+      "exact_interventions": {
+        "dependency_trace": "[dependency_trace @step] Inspect checkout calls to cart, inventory and payment services. Check per-request status, latency, routing and input propagation; a successful mobile checkout or unchanged backend version does not exclude a dependency failure caused by different web inputs.",
+        "binary_isolation": "[binary_isolation @step] In a test reproduction, bisect the differing header set or frontend deployment changes against a known-good control. Test both halves and their combination, allowing for interacting changes; retain the smallest set that reproduces the failure and verify by reintroduction."
+      },
+      "offline_best_diagnostic_actions": [
+        "B"
+      ],
+      "classification": "AMBIGUOUS_SUPPORT",
+      "reason": "Isolation calls for a test reproduction against a known-good control, which could motivate establishing the matched mobile baseline B. It does not explicitly request web/mobile reproduction; bisection and downstream inspection are its direct guidance."
+    },
+    {
+      "snapshot": "S08",
+      "eligible_pf_ids": [
+        "evidence_collection",
+        "request_id_trace",
+        "comparison_experiment"
+      ],
+      "fire_counts_before": {
+        "evidence_collection": 0,
+        "request_id_trace": 0,
+        "comparison_experiment": 0,
+        "dependency_trace": 0,
+        "binary_isolation": 0
+      },
+      "exact_interventions": {
+        "evidence_collection": "[evidence_collection @step] Missing evidence: request_captured. Capture the failing request with method, URL, headers, body, response, timestamp and correlation ID; redact credentials.",
+        "request_id_trace": "[request_id_trace @step] Trace request abc123 for /api/checkout through gateway and application logs. Locate the first failing span and its error details; correlate by request ID and timestamp.",
+        "comparison_experiment": "[comparison_experiment @step] Compare the failing web request with a successful mobile request for the same account and operation. Hold account, cart, timing and backend constant; compare headers and payloads, then replay one changed factor at a time in a test environment to check whether the failure follows it."
+      },
+      "offline_best_diagnostic_actions": [
+        "D"
+      ],
+      "classification": "CLEAR_SUPPORT",
+      "reason": "The comparison intervention explicitly asks to compare matched failing web and successful mobile request headers and payloads, naturally supporting D."
+    },
+    {
+      "snapshot": "S09",
+      "eligible_pf_ids": [
+        "evidence_collection",
+        "request_id_trace"
+      ],
+      "fire_counts_before": {
+        "evidence_collection": 0,
+        "request_id_trace": 0,
+        "comparison_experiment": 0,
+        "dependency_trace": 0,
+        "binary_isolation": 0
+      },
+      "exact_interventions": {
+        "evidence_collection": "[evidence_collection @step] Missing evidence: request_captured. Capture the failing request with method, URL, headers, body, response, timestamp and correlation ID; redact credentials.",
+        "request_id_trace": "[request_id_trace @step] Trace request abc123 for /api/checkout through gateway and application logs. Locate the first failing span and its error details; correlate by request ID and timestamp."
+      },
+      "offline_best_diagnostic_actions": [
+        "B"
+      ],
+      "classification": "NO_CLEAR_SUPPORT",
+      "reason": "Request capture and correlated tracing do not explicitly direct matched web/mobile reproduction B. The bundle contains no comparison or control-baseline guidance."
+    },
+    {
+      "snapshot": "S10",
+      "eligible_pf_ids": [
+        "request_id_trace",
+        "binary_isolation"
+      ],
+      "fire_counts_before": {
+        "evidence_collection": 0,
+        "request_id_trace": 0,
+        "comparison_experiment": 0,
+        "dependency_trace": 0,
+        "binary_isolation": 0
+      },
+      "exact_interventions": {
+        "request_id_trace": "[request_id_trace @step] Trace request abc123 for /api/checkout through gateway and application logs. Locate the first failing span and its error details; correlate by request ID and timestamp.",
+        "binary_isolation": "[binary_isolation @step] In a test reproduction, bisect the differing header set or frontend deployment changes against a known-good control. Test both halves and their combination, allowing for interacting changes; retain the smallest set that reproduces the failure and verify by reintroduction."
+      },
+      "offline_best_diagnostic_actions": [
+        "B"
+      ],
+      "classification": "AMBIGUOUS_SUPPORT",
+      "reason": "The isolation intervention requests a known-good control for test reproduction. This could lead to establishing the matched mobile baseline B, but mobile and the matched-client test are not specified; tracing and bisection are the explicit directions."
+    }
+  ]
+}
